@@ -1,0 +1,62 @@
+login
+<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
+<form id="form" class="form_container" >
+    <label for="email">Email</label>
+    <input type="email"  name="email" required>
+    <label for="password">Password</label>
+    <input type="password"  name="password" required>
+    <input type="file" name="" id="file">
+      <button id="test" type="submit">Register</button>
+  </form>
+  <button id="click">click</button>
+<button id="logout">logout</button>
+  <script>
+      window.addEventListener("DOMContentLoaded", () => {
+          console.log('xd')
+        const firebaseConfig = {
+    apiKey: "AIzaSyBsiq48Spvfq6OsV0CalQFJi6Gd8NAQFu4",
+    authDomain: "paragonytest-7d604.firebaseapp.com",
+    projectId: "paragonytest-7d604",
+    storageBucket: "paragonytest-7d604.appspot.com",
+    messagingSenderId: "512522830802",
+    appId: "1:512522830802:web:c84b68993f02e37b5cfe0b",
+    measurementId: "G-E9C8GS5ZS1"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+        // document.getElementById('form')
+        // .addEventListener('sumbit',(e)=>{
+        //     console.log('xxxxxxxxd')
+        //     e.preventDefault();
+        //     const email = e.target.email.value;
+        //     const password = e.target.password.value;
+        //     // firebase.auth().signInWithEmailAndPassword(email,password)
+        //     // .then((e)=>{
+        //     //     console.log('zalogowany')
+        //     // })
+        // })
+document.getElementById('click').addEventListener('click',()=>{
+    console.log('xdd')
+    const email = "123456@gmail.com"
+    const password = "123456"
+     firebase.auth().signInWithEmailAndPassword(email,password)
+            .then((e)=>{
+                console.log('zalogowany')
+            })
+})
+
+document.getElementById("logout").addEventListener('click',()=>{
+    firebase.auth().signOut().then(()=>{
+                console.log('wylogowany')
+            })
+})
+      })
+ 
+  </script>

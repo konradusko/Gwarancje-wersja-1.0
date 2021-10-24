@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
+    <script>
+               const firebaseConfig = {
+    apiKey: "AIzaSyBsiq48Spvfq6OsV0CalQFJi6Gd8NAQFu4",
+    authDomain: "paragonytest-7d604.firebaseapp.com",
+    projectId: "paragonytest-7d604",
+    storageBucket: "paragonytest-7d604.appspot.com",
+    messagingSenderId: "512522830802",
+    appId: "1:512522830802:web:c84b68993f02e37b5cfe0b",
+    measurementId: "G-E9C8GS5ZS1"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const urlPath = '<%=template%>';
+const loggedUser = firebase.auth().currentUser
+const token = (loggedUser !=null)?loggedUser.getIdToken():undefined
+console.log(token)
+fetch(urlPath,{
+    method:"POST",
+    headers:{
+        Accept: "application/json",
+       "Content-Type": "application/json",
+    },
+    body:JSON.stringify({
+        token
+    })
+})
+
+console.log(loggedUser)
+console.log(urlPath)
+    </script>
+</head>
+<body>
+    <div id="content">
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+register
+
+<form id="form" class="form_container" >
+    <label for="name">name</label>
+    <input type="name"  name="name" required>
+    <label for="email">Email</label>
+    <input type="email"  name="email" required>
+    <label for="password">Password</label>
+    <input type="password"  name="password" required>
+    <input type="file" name="" id="file">
+      <button id="test" type="submit">Register</button>
+  </form>
+  <script>
+    document.getElementById('form')
+        .addEventListener('submit',(e)=>{
+            e.preventDefault();
+            const email = e.target.email.value;
+            const password = e.target.password.value;
+            const name = e.target.name.value
+            fetch('/registerUser',{
+                method:"POST",
+                headers:{
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body:JSON.stringify({
+                    email,
+                    password,
+                    name,
+                })
+            })
+        })
+  </script>
