@@ -27,8 +27,9 @@
 firebase.initializeApp(firebaseConfig);
 const urlPath = '<%=template%>';
 const loggedUser = firebase.auth().currentUser
-const token = (loggedUser !=null)?loggedUser.getIdToken():undefined
-console.log(token)
+// const token = (loggedUser !=null)?loggedUser.getIdToken():null
+const token = loggedUser?.getIdToken()
+
 fetch(urlPath,{
     method:"POST",
     headers:{
@@ -39,9 +40,22 @@ fetch(urlPath,{
         token
     })
 })
+.then(response => response.json()) // convert to json
+.then(async(json)=>{
+    console.log(json)
+    if("error" in json)
+    location.href = json.redirect
+    if("template" in json){
+        document.getElementById('content').innerHTML=json.template
+        const {default:test} = await import('./test.js')
+        console.log('lel')
+        test()
+    }
+    
+}).catch((er)=>{
+    console.log(er)
+})
 
-console.log(loggedUser)
-console.log(urlPath)
     </script>
 </head>
 <body>

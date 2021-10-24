@@ -3,6 +3,7 @@ const app = express()
 const PORT = 4000
 const firebase = require('firebase-admin')
 const serviceAccount = require("./firebase_key.json");
+const {createAccountLimiter} = require('./modules/request_limit/request_limits')
 firebase.initializeApp({
     credential: firebase.credential.cert(serviceAccount)
   });
@@ -12,6 +13,8 @@ app.set('view engine','ejs');
 app.use(express.json());
 //w folderze public style itd
 app.use(express.static("public"));
+
+
 //routers get
 //before login
 const before_auth_home = require('./routers_get/before_auth/home_before_auth')
@@ -29,7 +32,7 @@ app.get('/home',after_auth_home)
 app.post('/home',after_auth_home)
 //routers post
 const before_auth_POST_register = require('./routers_post/before_auth/register')
-app.post('/registerUser',before_auth_POST_register)
+app.post('/registerUser',createAccountLimiter,before_auth_POST_register)
 
 
 
