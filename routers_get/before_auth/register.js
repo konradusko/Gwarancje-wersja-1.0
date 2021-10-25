@@ -8,6 +8,6 @@ route.get('/register',(req,res)=>{
 })
 route.post('/register',(req,res)=>{
     const page = '/before_auth/register.ejs'
-    isUserAuthorization(req,res,page,false)
+    isUserAuthorization(req,res,page,false,"main_register.js")
 })
 module.exports = route;

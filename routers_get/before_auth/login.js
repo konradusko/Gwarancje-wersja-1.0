@@ -8,7 +8,7 @@ route.get('/login',(req,res)=>{
 })
 route.post('/login',(req,res)=>{
     const page = '/before_auth/login.ejs'
-    isUserAuthorization(req,res,page,false)
+    isUserAuthorization(req,res,page,false,"./before_auth/main_login.js")
 })
 module.exports = route;
 
