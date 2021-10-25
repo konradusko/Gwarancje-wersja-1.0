@@ -22,13 +22,8 @@ const engine = async (urlPath)=>{
            
             })
         }
-        // firebase.auth().signOut().then(()=>{
-        //     console.log('wylogowany')
-        // })
         const check_user = (user != null)? user.getIdToken(true):null
         const token = await get_token(check_user)
-        console.log(token)
-    //  console.log(JSON.stringify({token}))
         fetch(urlPath,{
         method:"POST",
         headers:{
@@ -55,41 +50,4 @@ const engine = async (urlPath)=>{
         console.log(er)
     })
     })
-    // // const loggedUser = await firebase.auth().currentUser
-    // const token = undefined
-    // console.log('xdddd')
-    // // console.log(token)
-    // setInterval(() => {
-    //     console.log( firebase.auth().currentUser.getIdToken())
-    //     // console.log(token)
-    // }, 500);
-
-    // fetch(urlPath,{
-    //     method:"POST",
-    //     headers:{
-    //         Accept: "application/json",
-    //        "Content-Type": "application/json",
-    //     },
-    //     body:JSON.stringify({
-    //         token
-    //     })
-    // })
-    // .then(response => response.json()) // convert to json
-    // .then(async(json)=>{
-    //     console.log(json)
-    //     if("error" in json)
-    //     location.href = json.redirect
-    //     if("template" in json){
-    //         document.getElementById('content').innerHTML=json.template
-    //     }
-    //     if("javascript_href" in json){
-    //         //zaimportować javascript
-    //         const module = await import(json.javascript_href)
-    //         module.default()
-    //     }
-        
-    // }).catch((er)=>{
-    //     console.log(er)
-    // })
-    
 }

@@ -9,7 +9,7 @@ const isUserAuthorization = (req, res, page,need_validation,java_script) =>{
     */
 const token = req.body.token
 console.log(token)
-if(token == undefined && need_validation == false){
+if(token == null && need_validation == false){
     console.log('case1')
 //nie mamy tokena i go nie potrzebujemy wiec jest git
 fs.readFile('views'+page, "utf-8", (err, temp) => {
@@ -20,7 +20,7 @@ fs.readFile('views'+page, "utf-8", (err, temp) => {
     })
 })
 
-}else if(token == undefined && need_validation == true){
+}else if(token == null && need_validation == true){
     console.log('case2')
     //potrzebujemy tokena a go nie mamy to przekierować do strony logowania
     res.json({
@@ -28,14 +28,14 @@ fs.readFile('views'+page, "utf-8", (err, temp) => {
         redirect:'/login',
     })
 
-}else if(token != undefined && need_validation == false){
+}else if(token != null && need_validation == false){
     console.log('case3')
     //mamy token a go nie potrzebujemy to przekierować na strone /home
     res.json({
         error:true,
         redirect:'/home'
     })
-}else if(token != undefined && need_validation == true){
+}else if(token != null && need_validation == true){
     console.log('case 4')
     //dobra jest token teraz trzeba go sprawdzic sobie
     auth.verifyIdToken(token)
