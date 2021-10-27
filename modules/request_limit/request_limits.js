@@ -1,5 +1,5 @@
 //tworzenie urzytkownika limit
-const rateLimit = require("express-rate-limit");//limit requestów
+import rateLimit from "express-rate-limit";
 const createAccountLimiter = rateLimit({
     windowMs: 60 * 60 * 1000, // 1 hour window
     max: 5, // start blocking after 5 requests
@@ -11,7 +11,4 @@ const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100
   });
-
-module.exports = {
-  createAccountLimiter
-}
+export {createAccountLimiter}

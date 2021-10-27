@@ -1,13 +1,15 @@
-const route = require('express').Router();
-const {isUserAuthorization} = require('../../modules/global/validate')
-route.get('/register',(req,res)=>{
+import express from "express"
+const before_auth_register = express.Router()
+import {isUserAuthorization} from "../../modules/global/validate.js"
+before_auth_register.get('/register',(req,res)=>{
     //tutaj sama rejestracja
     res.render('auth.ejs', {
         template: '/register'
     })
 })
-route.post('/register',(req,res)=>{
+before_auth_register.post('/register',(req,res)=>{
     const page = '/before_auth/register.ejs'
-    isUserAuthorization(req,res,page,false,"main_register.js")
+    const javascript = "./before_auth/main_register.js"
+    isUserAuthorization(req,res,page,false,javascript)
 })
-module.exports = route;
+export {before_auth_register}

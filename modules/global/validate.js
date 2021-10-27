@@ -1,6 +1,6 @@
-const fs = require('fs')
-const firebase = require('firebase-admin')
-const auth = firebase.auth()
+import fs from "fs"
+import pkg from 'firebase-admin'
+const {auth} = pkg
 const isUserAuthorization = (req, res, page,need_validation,java_script) =>{
     /*
     need_validation - wartości true-potrzebuje validacji; false-nie potrzebuje
@@ -63,7 +63,4 @@ fs.readFile('views'+page, "utf-8", (err, temp) => {
 
 
 }
-
-module.exports = {
-    isUserAuthorization
-}
+export {isUserAuthorization}

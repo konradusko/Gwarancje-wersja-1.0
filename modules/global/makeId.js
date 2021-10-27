@@ -8,6 +8,5 @@ const makeId = (length)=>{
         res(result)
     })
 }
-module.exports = {
-    makeId
-}
+
+export {makeId}

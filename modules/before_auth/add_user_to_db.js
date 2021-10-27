@@ -1,9 +1,9 @@
-const firebase = require('firebase-admin')
-const db = firebase.firestore()
-const {makeId} = require('../global/makeId')
+import pkg from "firebase-admin"
+const {firestore} = pkg
+import {makeId} from "../global/makeId.js"
 const add_new_user_to_db = (uid)=>{
     return new Promise(async(res,rej)=>{
-        const usersRef =  db.collection("Users");
+        const usersRef =  firestore.collection("Users");
         const privateId = await makeId(40)
         await usersRef.doc(uid).set({
             items:[],
@@ -16,6 +16,4 @@ const add_new_user_to_db = (uid)=>{
         })
     })
 }
-module.exports ={
-    add_new_user_to_db
-}
+export {add_new_user_to_db}

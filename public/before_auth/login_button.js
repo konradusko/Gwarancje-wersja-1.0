@@ -8,15 +8,11 @@ export default function login_button(){
                     console.log('zalogowany')
                     const loggedUser = firebase.auth().currentUser
                     console.log(loggedUser)
-                    location.href = '/home'
+                    // location.href = '/home'
                 })
     })
     
-    document.getElementById("logout").addEventListener('click',()=>{
-        firebase.auth().signOut().then(()=>{
-                    console.log('wylogowany')
-                })
-    })
+
 }
 
       

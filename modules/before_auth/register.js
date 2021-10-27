@@ -1,6 +1,6 @@
-const firebase = require('firebase-admin')
-const auth = firebase.auth()
-const {add_new_user_to_db} = require('./add_user_to_db')//-->dodawanie uzytkownika do bazy danych
+import pkg from 'firebase-admin'
+const {auth} = pkg
+import {add_new_user_to_db} from "./add_user_to_db.js"
 const register = (data)=>{
     /*
     data --> obiekt ktory na w sobie wartości do rejestracji
@@ -34,6 +34,4 @@ const register = (data)=>{
      
     })
 }
-module.exports = {
-    register
-}
+export {register}
