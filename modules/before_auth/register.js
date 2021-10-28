@@ -7,29 +7,25 @@ const register = (data)=>{
     */
     return new Promise(async(res,rej)=>{
         //validacja
-        if(data.name.length <4)
-        rej('Nazwa użytkownika powinna zawierać co najmniej 4 znaki.')
-        if(data.password.length<6)
-        rej('Hasło powinno zawierać co najmniej 6 znaków !')
         try {
-            const user =  await auth.createUser({
+            const user =  await auth().createUser({
                 email:data.email,
                 password:data.password,
                 displayName:data.name
             })
-            console.log('Successfully created new user:', user.uid);
             try {
-                 await add_new_user_to_db(user.uid)
+                 await add_new_user_to_db(user.uid,data.img)
                  res()//git
             } catch (error) {
-                console.log(error)
-                console.log('jest blad nie dodalo i co teraz zrobic')
+                //tutaj nalezy usunac usera bo jakims cudem nie dodał sie do bazy danych 
+                await auth().deleteUser(user.uid).then((result)=>{
+                    rej("Utworzenie konta nie powiodło się !")
+                })
             }
         } catch (error) {
-            console.log(error.errorInfo.message)
-            if(error.errorInfo.message === "The email address is already in use by another account.")
+            if("errorInfo"in error && "message"in error.errorInfo &&error.errorInfo.message === "The email address is already in use by another account.")
             rej('Ten email jest już zajęty !')
-            rej(error)
+            rej("Utworzenie konta nie powiodło się !")
         }
      
     })

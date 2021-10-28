@@ -22,7 +22,7 @@ export default function register_button(){
             const password = document.getElementById('password').value
             const name =document.getElementById('name').value
      
-            let imgToSend = reader.result
+            let img = reader.result
             fetch('/registerUser',{
                 method:"POST",
                 headers:{
@@ -33,7 +33,7 @@ export default function register_button(){
                     email,
                     password,
                     name,
-                    imgToSend
+                    img
                 })
             }).then(()=>{
                 console.log('good')
