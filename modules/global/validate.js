@@ -7,9 +7,7 @@ const isUserAuthorization = (req, res, page,need_validation,java_script) =>{
     page - strona ktora bedziemy ladowac
     javascirpt - skrypty ktore musimy zaimportowac
     */
-   console.log('xddd')
 const token = req.body.token
-console.log(token)
 if(token == null && need_validation == false){
     console.log('case1')
 //nie mamy tokena i go nie potrzebujemy wiec jest git

@@ -4,11 +4,10 @@ export default function login_button(){
         const email = "123456@gmail.com"
         const password = "123456"
          firebase.auth().signInWithEmailAndPassword(email,password)
-                .then((e)=>{
-                    console.log('zalogowany')
-                    const loggedUser = firebase.auth().currentUser
-                    console.log(loggedUser)
-                    // location.href = '/home'
+                .then((e)=>{})
+                .catch((er)=>{
+                    console.log(er)
+                    //wyswietlic error
                 })
     })
     
