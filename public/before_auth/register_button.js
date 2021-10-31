@@ -35,7 +35,10 @@ export default function register_button(){
                     name,
                     img
                 })
-            }).then(()=>{
+            })
+            .then(response => response.json()) // convert to json
+            .then((json)=>{
+                console.log(json)
                 console.log('good')
             })
             .catch((er)=>{

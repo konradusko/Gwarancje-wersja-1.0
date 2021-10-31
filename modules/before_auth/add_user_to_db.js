@@ -3,7 +3,6 @@ const {firestore} = pkg
 import {makeId} from "../global/makeId.js"
 const add_new_user_to_db = (uid,img)=>{
     return new Promise(async(res,rej)=>{
-        rej()
         const usersRef =  firestore().collection("Users");
         const privateId = await makeId(40)
         await usersRef.doc(uid).set({

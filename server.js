@@ -6,7 +6,8 @@ import firebase from 'firebase-admin'
 const serviceAccount  = JSON.parse(fs.readFileSync('./firebase_key.json'))
 import {createAccountLimiter} from "./modules/request_limit/request_limits.js"
 firebase.initializeApp({
-    credential: firebase.credential.cert(serviceAccount)
+    credential: firebase.credential.cert(serviceAccount),
+    storageBucket:"gs://paragonytest-7d604.appspot.com/"
   });
 
 //uzycie ejs

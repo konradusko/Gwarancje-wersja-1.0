@@ -7,6 +7,7 @@ const isUserAuthorization = (req, res, page,need_validation,java_script) =>{
     page - strona ktora bedziemy ladowac
     javascirpt - skrypty ktore musimy zaimportowac
     */
+   console.log('xddd')
 const token = req.body.token
 console.log(token)
 if(token == null && need_validation == false){
@@ -38,7 +39,7 @@ fs.readFile('views'+page, "utf-8", (err, temp) => {
 }else if(token != null && need_validation == true){
     console.log('case 4')
     //dobra jest token teraz trzeba go sprawdzic sobie
-    auth.verifyIdToken(token)
+    auth().verifyIdToken(token)
         .then((decodedToken)=>{
             //jest git mamy uzytkownika
             fs.readFile('views'+page, "utf-8", (err, temp) => {

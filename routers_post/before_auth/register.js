@@ -3,8 +3,7 @@ const before_auth_POST_register = express.Router()
 import {register} from "../../modules/before_auth/register.js"
 import {fetch_photo} from "../../modules/before_auth/promise_fetch_photo.js"
 // const {register} = require('../../modules/before_auth/register')
-before_auth_POST_register.post('/registerUser',async(req,res)=>{
-    
+before_auth_POST_register.post('/registerUser',async(req,res)=>{ 
     if(!("name" in req.body) ||!("password" in req.body)||!("email" in req.body)||!("img" in req.body))
        return res.json({message:"Brak wszystkich danych"})
 
@@ -30,7 +29,7 @@ before_auth_POST_register.post('/registerUser',async(req,res)=>{
             name:req.body.name,
             email:req.body.email,
             password:req.body.password,
-            img:req.body.img
+            img:photo
         })
         return res.json({message:"Konto zostało utworzone ! Możesz się zalogować"})
     } catch (error) {

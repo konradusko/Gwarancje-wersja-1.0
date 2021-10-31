@@ -24,6 +24,8 @@ const engine = async (urlPath)=>{
         }
         const check_user = (user != null)? user.getIdToken(true):null
         const token = await get_token(check_user)
+        console.log(token)
+        console.log(urlPath)
         fetch(urlPath,{
         method:"POST",
         headers:{
