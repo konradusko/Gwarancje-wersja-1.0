@@ -9,6 +9,7 @@ const engine = async (urlPath)=>{
         measurementId: "G-E9C8GS5ZS1"
     };
     firebase.initializeApp(firebaseConfig);
+
     firebase.auth().onAuthStateChanged(async (user) => {
         const get_token = (token_given)=>{
             return new Promise((res,rej)=>{
