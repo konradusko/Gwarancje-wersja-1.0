@@ -8,7 +8,7 @@ const fetch_photo = (image)=>{
                 res(e)
             })
             .catch((er)=>{
-                res(er)
+                rej()
             })
     })
 }

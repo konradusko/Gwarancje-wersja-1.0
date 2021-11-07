@@ -7,11 +7,16 @@ const get_user_info_from_db = (data)=>{
         if(user_data.exists){
             switch (data.case) {
                 case "photo_slots":
-                    const slots = user_data._fieldsProto.slots.integerValue
-                    const photo = user_data._fieldsProto.photo.stringValue
-                    res({slots:slots,
-                        photo:photo})
+                    res({
+                        slots:user_data._fieldsProto.slots.integerValue,
+                        photo:user_data._fieldsProto.photo.stringValue
+                    })
                     break;
+                case "slots":
+                    res({
+                        slots:user_data._fieldsProto.slots.integerValue
+                    })
+                break;
             }
         }else{
             rej("Nie udało się pobrać informacji o użytkowniku !")

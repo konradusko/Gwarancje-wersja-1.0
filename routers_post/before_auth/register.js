@@ -32,14 +32,19 @@ before_auth_POST_register.post('/registerUser',async(req,res)=>{
     if(!validate_email)
         return res.json({message:"Email jest zły !"})
     if(req.body.img != 1 || req.body.img != 2|| req.body.img != 3){
-        const photo = await fetch_photo(req.body.img)
-        const max_size = 2100000 // bajty
-        if(photo.type == "image/jpeg" || photo.type == "image/png"||photo.type == "image/jpg"){}else{
-            return res.json({message:"Zdjęcie ma zły format !"})
+        try {
+            const photo = await fetch_photo(req.body.img)
+            const max_size = 2100000 // bajty
+            if(photo.type == "image/jpeg" || photo.type == "image/png"||photo.type == "image/jpg"){}else{
+                return res.json({message:"Zdjęcie ma zły format !"})
+            }
+            if(photo.size > max_size)
+                return res.json({message:"Zdjęcie jest za duże !"})
+            reg(photo)
+        } catch (error) {
+            return res.json({message:"Plik ma zły format lub jest uszkodzony!"})
         }
-        if(photo.size > max_size)
-            return res.json({message:"Zdjęcie jest za duże !"})
-        reg(photo)
+      
     }else{
         reg(req.body.img)
     }

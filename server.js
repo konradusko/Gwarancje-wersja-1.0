@@ -38,8 +38,10 @@ app.post('/home',after_auth_home)
 //routers post
 import {before_auth_POST_register} from "./routers_post/before_auth/register.js"
 import {get_user_info} from "./routers_post/after_auth/get_user_info.js"
+import {add_item} from "./routers_post/after_auth/add_item.js"
 app.post('/registerUser',createAccountLimiter,before_auth_POST_register)
 app.post('/getUserInfo',middleware_token_check,get_user_info)
+app.post('/add_item',middleware_token_check,add_item)
 
 
 

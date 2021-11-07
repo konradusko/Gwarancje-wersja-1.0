@@ -13,10 +13,12 @@ export default function get_user_info(){
             .then(response => response.json()) // convert to json
             .then((json)=>{
                 console.log(json)
+                res()
             })
          })
             .catch((er)=>{
                 console.log(er)
+                res()
             })
          
     })
