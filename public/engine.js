@@ -9,7 +9,11 @@ const engine = async (urlPath)=>{
         measurementId: "G-E9C8GS5ZS1"
     };
     firebase.initializeApp(firebaseConfig);
-
+    // firebase.auth().signOut().then(() => {
+    //     // Sign-out successful.
+    //   }).catch((error) => {
+    //     // An error happened.
+    //   });
     firebase.auth().onAuthStateChanged(async (user) => {
         const get_token = (token_given)=>{
             return new Promise((res,rej)=>{
@@ -25,8 +29,6 @@ const engine = async (urlPath)=>{
         }
         const check_user = (user != null)? user.getIdToken(true):null
         const token = await get_token(check_user)
-        console.log(token)
-        console.log(urlPath)
         fetch(urlPath,{
         method:"POST",
         headers:{

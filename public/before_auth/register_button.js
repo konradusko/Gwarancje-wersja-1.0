@@ -1,15 +1,12 @@
 export default async function register_button(){
     const add_file = await import('../public/add_file.js')
+    const {default:type_of_file} = await import('../public/type_of_files.js')
     let img = undefined;
-    const allow_format = {
-        jpg:"jpg",
-        jpeg:"jpeg",
-        png:"png"
-    }
+    const allow_format = ["image/jpeg","image/png"]
     const button_add_file = document.getElementById('file');
     button_add_file.addEventListener('click',async()=>{
         try {
-            img = await add_file.default(allow_format)
+            img = await add_file.default(allow_format,type_of_file)
         } catch (error) {
            img = undefined
             //wyswietlic błąd
