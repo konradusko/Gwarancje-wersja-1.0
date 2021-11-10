@@ -4,7 +4,5 @@ export default async function main(){
     
     //testy
     const add_item_post_request = await import ('./add_item/add_item.js')
-    document.getElementById('ad_item').addEventListener('click',()=>{
-        add_item.default()
-    })
+    
 }

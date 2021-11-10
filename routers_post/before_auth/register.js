@@ -1,7 +1,7 @@
 import express from "express"
 const before_auth_POST_register = express.Router()
 import {register} from "../../modules/before_auth/register.js"
-import {fetch_photo} from "../../modules/before_auth/promise_fetch_photo.js"
+import {fetch_photo} from "../../modules/global/promise_fetch_photo.js"
 // const {register} = require('../../modules/before_auth/register')
 before_auth_POST_register.post('/registerUser',async(req,res)=>{ 
     const name_minimum_length = 4,name_max_length = 25,password_minimum_length = 6

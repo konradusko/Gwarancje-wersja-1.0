@@ -1,7 +1,7 @@
 import pkg from 'firebase-admin'
 const {auth} = pkg
 import {add_new_user_to_db} from "./add_user_to_db.js"
-import {add_photo_to_storage_register} from './add_photo_to_storage.js'
+import {add_photo_to_storage_register} from '../global/add_photo_to_storage.js'
 import {makeId} from "../global/makeId.js"
 const register = (data)=>{
     /*
