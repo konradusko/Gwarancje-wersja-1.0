@@ -5,7 +5,9 @@ import {add_item_validate} from '../../modules/after_auth/add_item_validate.js'
 import {fetch_photo} from '../../modules/global/promise_fetch_photo.js'
 import {add_item_to_db} from '../../modules/after_auth/add_item_to_db.js'
 import {makeId} from "../../modules/global/makeId.js"
-import {create_pdf_file} from "../../modules/global/create_pdf_file.js"
+// import {create_pdf_file} from "../../modules/global/create_pdf_file.js"
+import {add_photo_to_storage_register} from '../../modules/global/add_photo_to_storage.js'
+import {remove_file} from '../../modules/global/remove_file_in_storage.js'
 add_item.post('/add_item',async(req,res)=>{
     try {
     let tmp;
@@ -23,25 +25,20 @@ add_item.post('/add_item',async(req,res)=>{
             try {
                 
                 const validate_item = await add_item_validate()
-
-                let img_proof_img =[],img_proof_pdf=[]
+                const files = req.body.files
+                const uid = res.locals.user.uid
+                let check_images = []
                 //2. validacje plików które chcemy dodać
-                for(let _=0;_<3;_++){
+                for(let _=0;_<files.length;_++){
                     //dla wszystkich sprawdzam czy rozmiar jest poprawny etc
-                    tmp = await fetch_photo()//dać tutaj zdjęcie
+                    tmp = await fetch_photo(files[_])//dać tutaj zdjęcie
                     if(tmp.type == "image/jpeg" || tmp.type == "image/png"||tmp.type == "image/jpg" || tmp.type == 'application/pdf'){
                         if(tmp.size > max_size){
                             return res.json({message:"Zdjęcie jest za duże"})
                         }else{
-                            if(tmp.type =='application/pdf')
-                            img_proof_pdf.push({
-                                type:tmp.type,
-                                code:'xd'
-                            })
-                            if(tmp.type == "image/jpeg" || tmp.type == "image/png"||tmp.type == "image/jpg")
-                            img_proof_img.push({
-                                type:tmp.type,
-                                code:'xd'
+                            check_images.push({
+                                obj:tmp,
+                                path:''
                             })
                         }
                     }else{
@@ -49,37 +46,35 @@ add_item.post('/add_item',async(req,res)=>{
                     }
 
                 }
-                const public_id = await makeId(30)
+                const public_id = await makeId(20)
                 const private_id = `${await makeId(15)}.${public_id}.${await makeId(10)}`
-
+                const path = `Items/${private_id}/`
                 //tworzenie pdfów
                 try {
-                    tmp=undefined
-                    if(img_proof_img.length !=0){
-                        for(let z =0;z<img_proof_img.length;z++){
-                            tmp = await create_pdf_file({
-                                password:password,
-                                img:img_proof_img[z].code
-                            })
-                            img_proof_img[z].code = tmp
-                        }
+                    for(let x =0;x<check_images.length;x++){
+                        check_images[x].path = path+`${await makeId(12)}`
+                        if(check_images[x].obj.type == "image/jpeg" || check_images.obj.type == "image/jpg")
+                        check_images[x].path+=`.jpg`
+                        if(check_images[x].obj.type == "image/png")
+                        check_images[x].path+=`.png`
+                        if(check_images[x].obj.type == "application/pdf")
+                        check_images[x].path+=`.pdf`
+                        await add_photo_to_storage_register(check_images[x].obj,check_images[x].path)
+                        console.log('added')
                     }
-
-                    if(img_proof_pdf.length !=0){
-
-                    }
-
-
-
                     // Stworzyc item
                     try {
-                        const created_item = await add_item_to_db()
-
+                        // const created_item = await add_item_to_db()
+                       
                     } catch (error) {
-                        return res.json({message:"Dodawanie przedmiotu nie powiodło się"})
+                      //Usuwam to co dodałem i zwracam błąd
+                      await remove_file(path)
+                      return res.json({message:"Dodawanie przedmiotu nie powiodło się"}) 
                     }
                 } catch (error) {
-                    
+                    //Usuwam to co dodałem i zwracam błąd
+                    await remove_file(path)
+                    return res.json({message:"Dodawanie przedmiotu nie powiodło się"})            
                 }
 
                 

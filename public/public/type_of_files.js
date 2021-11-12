@@ -11,6 +11,9 @@ export default function type_file(code) {
             case "ffd8ffe8":
                 res("image/jpeg")
                 break;
+            case "25504446":
+                res('application/pdf')
+            break;
             default:
                 res(undefined)
                 break;
