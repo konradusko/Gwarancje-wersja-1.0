@@ -1,12 +1,17 @@
 
 import pkg from 'firebase-admin'
 const {storage} = pkg
-const remove_file = ()=>{
+const remove_file = (path)=>{
     return new Promise((res,rej)=>{
         storage().bucket().deleteFiles({
             prefix:path
+        }).then(()=>{
+            res()
         })
-        res()
+        .catch((er)=>{
+            //jakies logi robić
+            res()
+        })
     })
    
 }
