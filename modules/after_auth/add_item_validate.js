@@ -3,6 +3,10 @@
 const add_item_validate = (body)=>{
     return new Promise((res,rej)=>{
 
+        //zrobic validacje ilosci zdjec
+
+
+
         //Nazwa przedmiotu
         const item_name_min_length = 4,item_name_max_length = 30
         if(!('item_name'in body))
@@ -89,6 +93,10 @@ const add_item_validate = (body)=>{
         if('phone_number_seller' in body && body.phone_number_seller.length >phone_number_seller_max_length)
         rej(`Number telefonu nie może być większy niz ${phone_number_seller_max_length} znaków`)
 
+        //komentarz
+        const comment_max_length = 1000
+        if('comment'in body&&body.comment.length >comment_max_length)
+        rej(`Komentarz nie może być dłuższy niż ${comment_max_length}`)
         res()
     })
 }

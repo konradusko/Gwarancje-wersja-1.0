@@ -7,6 +7,8 @@ const serviceAccount  = JSON.parse(fs.readFileSync('./firebase_key.json'))
 import {createAccountLimiter} from "./modules/request_limit/request_limits.js"
 //middleware do sprawdzania czy jest token i czy jest prawidlowy
 import {middleware_token_check} from './modules/global/middleware_token_veryfy.js'
+//middleware do sprawdzenia czy mamy uprawnienia co do tego przedmiotu
+import {get_item_id_using_public} from './modules/global/middleware_get_id_item.js'
 firebase.initializeApp({
     credential: firebase.credential.cert(serviceAccount),
     storageBucket:"gs://paragonytest-7d604.appspot.com/"
@@ -39,9 +41,11 @@ app.post('/home',after_auth_home)
 import {before_auth_POST_register} from "./routers_post/before_auth/register.js"
 import {get_user_info} from "./routers_post/after_auth/get_user_info.js"
 import {add_item} from "./routers_post/after_auth/add_item.js"
+import {addItemEvent} from "./routers_post/after_auth/add_Item_Event.js"
 app.post('/registerUser',createAccountLimiter,before_auth_POST_register)
 app.post('/getUserInfo',middleware_token_check,get_user_info)
 app.post('/add_item',middleware_token_check,add_item)
+app.post('/addItemEvent',middleware_token_check,get_item_id_using_public,addItemEvent)
 
 
 

@@ -120,6 +120,7 @@ add_item.post('/add_item',async(req,res)=>{
                         const seller_adress = ('seller_adress' in req.body)? req.body.seller_adress:null
                         const seller_email = ('seller_email' in req.body)? req.body.seller_email:null
                         const phone_number_seller = ('phone_number_seller' in req.body)? req.body.phone_number_seller:null
+                        const comment = ('comment' in req.body)? req.body.comment:''
                         //wymagane
                         const item_name = req.body.item_name
                         const brand = req.body.brand
@@ -145,7 +146,8 @@ add_item.post('/add_item',async(req,res)=>{
                             model,
                             purchase_amount,
                             warranty_start_date,
-                            warranty_end_date
+                            warranty_end_date,
+                            comment
                         })
                         //dodać przedmiot do użytkownika i odjąć mu slota
                         try {
