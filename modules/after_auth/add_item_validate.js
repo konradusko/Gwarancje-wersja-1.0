@@ -4,7 +4,7 @@ const add_item_validate = (body)=>{
     return new Promise((res,rej)=>{
 
         //zrobic validacje ilosci zdjec
-
+        //ZROBIC VALIDACJE TYPÓW DANYCH!
 
 
         //Nazwa przedmiotu

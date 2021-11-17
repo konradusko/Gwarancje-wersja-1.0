@@ -98,7 +98,7 @@ add_item.post('/add_item',async(req,res)=>{
 
                     for(let x =0;x<check_images.length;x++){
                         check_images[x].path = path+`${await makeId(12)}`
-                        if(check_images[x].obj.type == "image/jpeg" || check_images.obj.type == "image/jpg")
+                        if(check_images[x].obj.type == "image/jpeg" || check_images[x].obj.type == "image/jpg")
                         check_images[x].path+=`.jpg`
                         if(check_images[x].obj.type == "image/png")
                         check_images[x].path+=`.png`
