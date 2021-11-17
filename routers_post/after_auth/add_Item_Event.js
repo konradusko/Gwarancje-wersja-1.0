@@ -4,6 +4,8 @@ import {add_item_event_check_files} from '../../modules/after_auth/add_item_even
 import {makeId} from "../../modules/global/makeId.js"
 import {add_photo_to_storage_register} from '../../modules/global/add_photo_to_storage.js'
 import {add_event_to_db} from '../../modules/after_auth/add_event_to_db.js'
+import {remove_item_from_db} from '../../modules/global/remove_item_from_db.js'
+import {add_item_to_event} from '../../modules/after_auth/add_event_to_item.js'
 addItemEvent.post('/addItemEvent',async(req,res)=>{
     const max_files_in_event = 2
     const max_size_files_in_event = 2100000
@@ -69,6 +71,25 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
                     date,
                     description
                 })
+                    try {
+                    //dodanie eventu do przedmiotu
+                        await add_item_to_event({
+                            item_Mother,
+                            private_id
+                        })
+                    } catch (error) {
+                        //usuwanie zdjec i dodany event
+                        await remove_item_from_db({
+                            collection:'Events',
+                            doc:private_id
+                        })
+                        if(added_photos.length >0){
+                            for(let q=0;q<added_photos.length;q++){
+                                await remove_file(added_photos[q].path)
+                            }
+                        }
+                        return res.json({message:"Dodawanie przedmiotu nie powiodło się"}) 
+                    }
                  
                 } catch (error) {
                     //usuwam dodane zdjecia
