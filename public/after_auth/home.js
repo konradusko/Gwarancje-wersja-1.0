@@ -25,7 +25,7 @@ export default async function main(){
 firebase.auth().currentUser.getIdToken()
 .then((token)=>{
     console.log('XD')
-    fetch("/addItemEvent",{
+    fetch("/removeItem",{
         method:"POST",
         headers:{
             Accept: "application/json",
@@ -45,4 +45,16 @@ firebase.auth().currentUser.getIdToken()
 .catch((er)=>{
     console.log(er)
 })
+
+
+
+
+// var user = firebase.auth().currentUser;
+// var credential = firebase.auth.EmailAuthProvider.credential(
+//   firebase.auth().currentUser.email,
+//  '123456'
+// );
+// console.log(credential)
+
+
 }

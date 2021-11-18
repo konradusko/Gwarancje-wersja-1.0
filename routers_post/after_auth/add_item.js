@@ -10,7 +10,7 @@ import {add_photo_to_storage_register} from '../../modules/global/add_photo_to_s
 import {remove_file} from '../../modules/global/remove_file_in_storage.js'
 import {remove_item_from_db} from '../../modules/global/remove_item_from_db.js'
 import {add_item_to_user_and_remove_slot} from "../../modules/after_auth/add_item_to_user_and_take_slot.js"
-add_item.post('/add_item',async(req,res)=>{
+add_item.post('/addItem',async(req,res)=>{
 
     try {
     let tmp;

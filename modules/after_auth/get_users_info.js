@@ -17,6 +17,11 @@ const get_user_info_from_db = (data)=>{
                         slots:user_data._fieldsProto.slots.integerValue
                     })
                 break;
+                case 'items':
+                    res({
+                        items:user_data._fieldsProto.items.arrayValue.values
+                    })
+                break;
             }
         }else{
             rej("Nie udało się pobrać informacji o użytkowniku !")
