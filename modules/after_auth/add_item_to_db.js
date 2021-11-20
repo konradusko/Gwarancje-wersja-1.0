@@ -28,7 +28,7 @@ const add_item_to_db = (data)=>{
         })
         .then(()=>{res()})//dodany
         .catch((er)=>{
-            console.log(er)
+            console.log('e?')
             rej(er)//nie udało sie dodać
         })
     })

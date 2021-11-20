@@ -1,7 +1,7 @@
 import pkg from 'firebase-admin'
 const {auth} = pkg
 import {add_new_user_to_db} from "./add_user_to_db.js"
-import {add_photo_to_storage_register} from '../global/add_photo_to_storage.js'
+import {add_photo_to_storage} from '../global/add_photo_to_storage.js'
 import {makeId} from "../global/makeId.js"
 const register = (data)=>{
     /*
@@ -40,7 +40,7 @@ const register = (data)=>{
                 default:
                     const url_name_photo = `UsersPhotos/${user.uid}/user_photo.${(data.img.type).split('/')[1]}`
                     try {
-                        await add_photo_to_storage_register(data.img,url_name_photo) // próbujemy dodac obrazek do firestore
+                        await add_photo_to_storage(data.img,url_name_photo) // próbujemy dodac obrazek do firestore
                         add_user(url_name_photo,user.uid)
                     }catch(err){
                         add_user('default user photo url',user.uid)//nie udalo sie dodac obrazka wiec wybierzemy defaultowy i dalej utworzymy konto

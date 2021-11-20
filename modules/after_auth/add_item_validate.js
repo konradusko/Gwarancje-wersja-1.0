@@ -3,7 +3,7 @@
 const add_item_validate = (body)=>{
     return new Promise((res,rej)=>{
 
-        //zrobic validacje ilosci zdjec
+        //validacja zdjec odbywa sie w innych funkcjach
         //ZROBIC VALIDACJE TYPÓW DANYCH!
 
 

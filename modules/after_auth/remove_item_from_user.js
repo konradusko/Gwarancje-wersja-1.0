@@ -8,9 +8,9 @@ const remove_item_from_user = (data)=>{
             usersRef.update({
                 items:firestore.FieldValue.arrayRemove(item_id)
             })
-            console.log(item_id)
+            res()
         } catch (error) {
-            console.log(error)
+            rej()
         }
     })
 }

@@ -4,7 +4,7 @@ export default async function main(){
     
     //testy
     const add_item_post_request = await import ('./add_item/add_item.js')
-    // add_item_post_request.default()
+    add_item_post_request.default()
 //     document.getElementById("test_add_item").addEventListener("click",async()=>{
 //         console.log('xd')
 //         const add_file = await import('../public/add_file.js')
@@ -22,29 +22,29 @@ export default async function main(){
 // })
 
 
-firebase.auth().currentUser.getIdToken()
-.then((token)=>{
-    console.log('XD')
-    fetch("/removeItem",{
-        method:"POST",
-        headers:{
-            Accept: "application/json",
-        "Content-Type": "application/json",
-        },
-        body:JSON.stringify({
-            token,
-            public_id_item:'Ovt00hdrPGPO2s3QRoNi'
+// firebase.auth().currentUser.getIdToken()
+// .then((token)=>{
+//     console.log('XD')
+//     fetch("/removeItem",{
+//         method:"POST",
+//         headers:{
+//             Accept: "application/json",
+//         "Content-Type": "application/json",
+//         },
+//         body:JSON.stringify({
+//             token,
+//             public_id_item:'Ovt00hdrPGPO2s3QRoNi'
 
-        })
-})
-.then(response => response.json()) // convert to json
-.then((json)=>{
-    console.log(json)
-})
-})
-.catch((er)=>{
-    console.log(er)
-})
+//         })
+// })
+// .then(response => response.json()) // convert to json
+// .then((json)=>{
+//     console.log(json)
+// })
+// })
+// .catch((er)=>{
+//     console.log(er)
+// })
 
 
 

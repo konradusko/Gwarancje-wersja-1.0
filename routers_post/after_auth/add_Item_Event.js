@@ -1,11 +1,12 @@
 import express from "express"
 const addItemEvent = express.Router()
-import {add_item_event_check_files} from '../../modules/after_auth/add_item_event_check_files.js'
+import {add_item_check_files} from '../../modules/after_auth/add_item_check_files.js'
 import {makeId} from "../../modules/global/makeId.js"
-import {add_photo_to_storage_register} from '../../modules/global/add_photo_to_storage.js'
+import {add_photo_to_storage} from '../../modules/global/add_photo_to_storage.js'
 import {add_event_to_db} from '../../modules/after_auth/add_event_to_db.js'
 import {remove_item_from_db} from '../../modules/global/remove_item_from_db.js'
 import {add_item_to_event} from '../../modules/after_auth/add_event_to_item.js'
+import {check_format_and_add_file} from '../../modules/after_auth/add_files_to_db_pre_functions.js'
 addItemEvent.post('/addItemEvent',async(req,res)=>{
     const max_files_in_event = 2
     const max_size_files_in_event = 2100000
@@ -33,33 +34,19 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
         //ilość plików
         try {
             //zwraca null jeśli nie było wgl plikow , a jak były to tablice z blobami
-            const files = await add_item_event_check_files({body:req.body,max_files:max_files_in_event,max_size:max_size_files_in_event})
+            const files = await add_item_check_files({body:req.body,max_files:max_files_in_event,max_size:max_size_files_in_event,allow_format:['image/jpeg',"image/png","image/jpg","application/pdf"]})
             //dodawanie zdj do bazy danych
-            const public_id = await makeId(10)
-            const private_id = await makeId(30)
+            const public_id = await makeId(15)
+            const private_id = `${await makeId(10)}.${public_id}.${await makeId(10)}`
             const item_Mother = res.locals.item_id
             const uid = res.locals.user.uid
             const path = `Items/${item_Mother}/`
             const date = req.body.date
             const description = req.body.description
-            let added_photos = []
-            if(files != null){
+
+    
                 try {
-                    for(let z =0;z<files.length;z++){
-                        files[z].path = path+await makeId(10)
-                        if(files[z].obj.type == "image/jpeg" || files[z].obj.type == "image/jpg")
-                        files[z].path+=`.jpg`
-                        if(files[z].obj.type == "image/png")
-                        files[z].path+=`.png`
-                        if(files[z].obj.type == "application/pdf")
-                        files[z].path+=`.pdf`
-                        await add_photo_to_storage_register(files[z].obj,files[z].path)
-                        added_photos.push({
-                            path:files[z].path,
-                            type:files[z].obj.type,
-                            id:await makeId(10)
-                        })
-                    }
+                const added_photos = (files === null)? [] : await check_format_and_add_file({path:path,array_files:files})
 
                //dodawanie eventu do bazy danych
                 await add_event_to_db({
@@ -101,10 +88,7 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
                     return res.json({message:"Dodawanie przedmiotu nie powiodło się"}) 
                 }
            
-            }
-            if(files === null){
-                //tylko dodaje do bazy danych bez zdj
-            }
+            
         } catch (error) {
             return res.json({message:error})
         }

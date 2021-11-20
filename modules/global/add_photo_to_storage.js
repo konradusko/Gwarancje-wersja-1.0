@@ -1,6 +1,6 @@
 import pkg from 'firebase-admin'
 const {storage} = pkg
-const add_photo_to_storage_register = (img,name)=>{
+const add_photo_to_storage = (img,name)=>{
     return new Promise(async(res,rej)=>{
         const arrayBuffer = await img.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
@@ -17,4 +17,4 @@ const add_photo_to_storage_register = (img,name)=>{
         })
     })
 }
-export{add_photo_to_storage_register}
+export{add_photo_to_storage}
