@@ -5,8 +5,6 @@ import {add_item_validate} from '../../modules/after_auth/add_item_validate.js'
 import {fetch_photo} from '../../modules/global/promise_fetch_photo.js'
 import {add_item_to_db} from '../../modules/after_auth/add_item_to_db.js'
 import {makeId} from "../../modules/global/makeId.js"
-// import {create_pdf_file} from "../../modules/global/create_pdf_file.js"
-import {add_photo_to_storage} from '../../modules/global/add_photo_to_storage.js'
 import {remove_file} from '../../modules/global/remove_file_in_storage.js'
 import {remove_item_from_db} from '../../modules/global/remove_item_from_db.js'
 import {add_item_to_user_and_remove_slot} from "../../modules/after_auth/add_item_to_user_and_take_slot.js"
@@ -18,9 +16,9 @@ add_item.post('/addItem',async(req,res)=>{
 
     try {
     let tmp;
-    const max_size = 2100000 // bajty
-    const max_files_in_event = 2
-    const {slots} = await get_user_info_from_db({uid:res.locals.user.uid,case:"slots"})
+    const max_size = res.locals.max_size_file // bajty
+    const max_files_in_event = res.locals.max_item
+    const {slots} = await get_user_info_from_db({uid:res.locals.user.uid,type:"slots"})
     console.log(slots)
         if(slots !=0 &&Math.sign(slots) != -1){
             //tutaj zrobić validacje potem
@@ -30,7 +28,7 @@ add_item.post('/addItem',async(req,res)=>{
 
             //1. validacja danych czy wszystko mamy i wszystko jest jak powinno byc
             try {
-                // await add_item_validate(req.body)
+                await add_item_validate(req.body)
                 const uid = res.locals.user.uid
 
                 if("avatar" in req.body){
@@ -99,7 +97,7 @@ add_item.post('/addItem',async(req,res)=>{
                             })
                             //dodać przedmiot do użytkownika i odjąć mu slota
                             try {
-                                const {slots} = await get_user_info_from_db({uid:res.locals.user.uid,case:"slots"})
+                                const {slots} = await get_user_info_from_db({uid:res.locals.user.uid,type:"slots"})
                                 if(slots !=0 &&Math.sign(slots) != -1){
                                     const count = slots-1;
                                     try {

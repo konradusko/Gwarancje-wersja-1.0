@@ -4,7 +4,7 @@ const get_item_id_by_public_id = (data)=>{
     return new Promise(async(res,rej)=>{
         const {public_id,uid} = data;
         try {
-                const {items} = await get_user_info_from_db({uid:uid,case:"items",collection_name:'Items'})
+                const {items} = await get_user_info_from_db({uid:uid,type:"items"})
                 const find  = items.find(item => (item.stringValue).split('.')[1] === public_id)
                 if(find == undefined)
                 rej()
@@ -12,7 +12,8 @@ const get_item_id_by_public_id = (data)=>{
                 if(find != undefined){
                      const {owner} = await get_item_info_by_id({
                             id:find.stringValue,
-                            action:'owner'
+                            action:'owner',
+                            collection_name:'Items'
                         })
                         console.log(owner)
 

@@ -9,6 +9,8 @@ import {createAccountLimiter} from "./modules/request_limit/request_limits.js"
 import {middleware_token_check} from './modules/middleware/middleware_token_veryfy.js'
 //middleware do sprawdzenia czy mamy uprawnienia co do tego przedmiotu
 import {get_item_id_using_public} from './modules/middleware/middleware_get_id_item.js'
+//middleware ktory przekazuje wartosci
+import {middleware_config} from './modules/middleware/middleware_config.js'
 firebase.initializeApp({
     credential: firebase.credential.cert(serviceAccount),
     storageBucket:"gs://paragonytest-7d604.appspot.com/"
@@ -43,11 +45,13 @@ import {get_user_info} from "./routers_post/after_auth/get_user_info.js"
 import {add_item} from "./routers_post/after_auth/add_item.js"
 import {addItemEvent} from "./routers_post/after_auth/add_Item_Event.js"
 import {remove_item} from './routers_post/after_auth/remove_item.js'
-app.post('/registerUser',createAccountLimiter,before_auth_POST_register)
+import {get_all_items} from './routers_post/after_auth/get_all_items.js'
+app.post('/registerUser',createAccountLimiter,middleware_config,before_auth_POST_register)
 app.post('/getUserInfo',middleware_token_check,get_user_info)
-app.post('/addItem',middleware_token_check,add_item)
-app.post('/addItemEvent',middleware_token_check,get_item_id_using_public,addItemEvent)
+app.post('/addItem',middleware_token_check,middleware_config,add_item)
+app.post('/addItemEvent',middleware_token_check,get_item_id_using_public,middleware_config,addItemEvent)
 app.post('/removeItem',middleware_token_check,get_item_id_using_public,remove_item)
+app.post('getAllItems',middleware_token_check,get_all_items)
 
 
 

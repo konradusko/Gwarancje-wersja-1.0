@@ -34,7 +34,7 @@ before_auth_POST_register.post('/registerUser',async(req,res)=>{
     if(req.body.img != 1 || req.body.img != 2|| req.body.img != 3){
         try {
             const photo = await fetch_photo(req.body.img)
-            const max_size = 2100000 // bajty
+            const max_size =res.locals.max_size_file // bajty
             if(photo.type == "image/jpeg" || photo.type == "image/png"||photo.type == "image/jpg"){}else{
                 return res.json({message:"Zdjęcie ma zły format !"})
             }
