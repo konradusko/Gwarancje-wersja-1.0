@@ -28,7 +28,7 @@ add_item.post('/addItem',async(req,res)=>{
 
             //1. validacja danych czy wszystko mamy i wszystko jest jak powinno byc
             try {
-                // await add_item_validate(req.body)
+                await add_item_validate(req.body)
                 const uid = res.locals.user.uid
 
                 if("avatar" in req.body){

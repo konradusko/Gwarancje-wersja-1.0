@@ -1,9 +1,9 @@
-import {get_item_id_by_public_id} from '../after_auth/get_item_id_using_public_id.js'
-const get_item_id_using_public = async(req,res,next)=>{
+import {get_item_id_by_public_id_check_owner} from '../after_auth/get_item_id_using_public_id_check_owner.js'
+const get_item_id_using_public_and_check_owner_middleware = async(req,res,next)=>{
     if('public_id_item' in req.body){
         const uid = res.locals.user.uid
         try {
-           const {item_id} = await get_item_id_by_public_id({
+           const {item_id} = await get_item_id_by_public_id_check_owner({
                 public_id:req.body.public_id_item,
                 uid:uid
             })
@@ -18,4 +18,4 @@ const get_item_id_using_public = async(req,res,next)=>{
         return res.json({message:"Podaj publiczne id przedmiotu."})
     }
 }
-export{get_item_id_using_public}
+export{get_item_id_using_public_and_check_owner_middleware}
