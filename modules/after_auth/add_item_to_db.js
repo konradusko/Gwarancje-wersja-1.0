@@ -7,14 +7,13 @@ const add_item_to_db = (data)=>{
         const dbRef =  firestore().collection("Items");
         dbRef.doc(private_id).set({
             public_id:public_id,
-            images:images,
+            files:images,
             owner:owner,
             share_with:[],
             comment:comment,
             events:[],
             avatar:avatar,
             serial_number,
-            additional_description,
             seller_name,
             seller_adress,
             seller_email,

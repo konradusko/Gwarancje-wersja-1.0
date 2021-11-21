@@ -58,12 +58,6 @@ const add_item_validate = (body)=>{
         if(!('warranty_end_date'in body))
         rej('Data zakończenia gwarancji jest obowiązkowa')
 
-        //Dodatkowy opis
-        const additional_description_min_length = 1,additional_description_max_length = 100
-        if('additional_description' in body && body.additional_description.length < additional_description_min_length)
-        rej('Dodatkowy opis nie może być pusty !')
-        if('additional_description' in body && body.additional_description.length > additional_description_max_length)
-        rej(`Dodatkowy opis nie może być dłuższy niż ${additional_description_max_length} znaków`)
 
         //Nazwa sprzedawcy
         const seller_name_min_length = 1,seller_name_max_length = 30

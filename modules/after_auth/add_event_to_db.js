@@ -10,17 +10,19 @@ const add_event_to_db = (data)=>{
             item_Mother,
             uid,
             date,
-            description
+            description,
+            name
         } = data
         const dbRef =  firestore().collection("Events");
         dbRef.doc(private_id).set({
          public_id:public_id,
-         images:added_photos,
+         files:added_photos,
         mother:item_Mother,
         added_by:uid,
         date_of_event:date,
         description:description,
-        date_of_added_event:dateFormatter.format(date)
+        date_of_added_event:dateFormatter.format(date),
+        name:name
         })
         .then(()=>{res()})//dodany
         .catch((er)=>{

@@ -7,6 +7,10 @@ import {remove_item_from_db} from '../../modules/global/remove_item_from_db.js'
 import {add_item_to_event} from '../../modules/after_auth/add_event_to_item.js'
 import {check_format_and_add_file} from '../../modules/after_auth/add_files_to_db_pre_functions.js'
 addItemEvent.post('/addItemEvent',async(req,res)=>{
+    //ZROBIC VALIDACJE NAZWY
+
+
+    
     const max_files_in_event = res.locals.max_item
     const max_size_files_in_event = res.locals.max_size_file
     //sprawdzic ten konkretny przedmiot
@@ -42,6 +46,7 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
             const path = `Items/${item_Mother}/`
             const date = req.body.date
             const description = req.body.description
+            const name = req.body.name
 
     
                 try {
@@ -55,7 +60,8 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
                     item_Mother,
                     uid,
                     date,
-                    description
+                    description,
+                    name
                 })
                     try {
                     //dodanie eventu do przedmiotu

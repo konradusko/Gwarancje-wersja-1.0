@@ -4,7 +4,7 @@ export default async function main(){
     
     //testy
     const add_item_post_request = await import ('./add_item/add_item.js')
-    // add_item_post_request.default()
+    add_item_post_request.default()
 //     document.getElementById("test_add_item").addEventListener("click",async()=>{
 //         console.log('xd')
 //         const add_file = await import('../public/add_file.js')

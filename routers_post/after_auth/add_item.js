@@ -28,7 +28,7 @@ add_item.post('/addItem',async(req,res)=>{
 
             //1. validacja danych czy wszystko mamy i wszystko jest jak powinno byc
             try {
-                await add_item_validate(req.body)
+                // await add_item_validate(req.body)
                 const uid = res.locals.user.uid
 
                 if("avatar" in req.body){
@@ -61,7 +61,6 @@ add_item.post('/addItem',async(req,res)=>{
                         try {
                             //sprawdzić nie wymagane przedmioty
                             const serial_number = ('serial_number' in req.body)?req.body.serial_number:''
-                            const additional_description = ('additional_description' in req.body)?req.body.additional_description:''
                             const seller_name = ('seller_name' in req.body)? req.body.seller_name:''
                             const seller_adress = ('seller_adress' in req.body)? req.body.seller_adress:''
                             const seller_email = ('seller_email' in req.body)? req.body.seller_email:''
@@ -82,7 +81,6 @@ add_item.post('/addItem',async(req,res)=>{
                                 owner:uid,
                                 avatar:avatar_object,
                                 serial_number,
-                                additional_description,
                                 seller_name,
                                 seller_adress,
                                 seller_email,

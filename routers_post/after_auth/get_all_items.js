@@ -17,9 +17,10 @@ get_all_items.post('/getAllItems',async(req,res)=>{
                     avatar_path,
                     item_name,
                     date_start,
-                    date_end
+                    date_end,
+                    public_id
                 } = await get_item_info_by_id({id:items[_].stringValue,action:"home_data",collection_name:'Items'})
-                ready_items.push({avatar_id,avatar_path,item_name,date_start,date_end})
+                ready_items.push({avatar_id,avatar_path,item_name,date_start,date_end,public_id})
             } catch (error) {}
         }
         //teraz tworze tokeny do zdjęcia
