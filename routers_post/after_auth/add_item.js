@@ -28,7 +28,7 @@ add_item.post('/addItem',async(req,res)=>{
 
             //1. validacja danych czy wszystko mamy i wszystko jest jak powinno byc
             try {
-                await add_item_validate(req.body)
+                // await add_item_validate(req.body)
                 const uid = res.locals.user.uid
 
                 if("avatar" in req.body){
@@ -54,18 +54,18 @@ add_item.post('/addItem',async(req,res)=>{
     
                     try {
                     //dodanie avatara
-                         const avatar_object = await check_format_and_add_avatar({obj:avatar,path:path})
-                       const  photos_paths = (check_images === null)? []:  await check_format_and_add_file({path:path,array_files:check_images})
+                    const avatar_object = await check_format_and_add_avatar({obj:avatar,path:path})
+                    const  photos_paths = (check_images === null)? []:  await check_format_and_add_file({path:path,array_files:check_images})
                        
                         // Stworzyc item
                         try {
                             //sprawdzić nie wymagane przedmioty
-                            const serial_number = ('serial_number' in req.body)?req.body.serial_number:null
-                            const additional_description = ('additional_description' in req.body)?req.body.additional_description:null
-                            const seller_name = ('seller_name' in req.body)? req.body.seller_name:null
-                            const seller_adress = ('seller_adress' in req.body)? req.body.seller_adress:null
-                            const seller_email = ('seller_email' in req.body)? req.body.seller_email:null
-                            const phone_number_seller = ('phone_number_seller' in req.body)? req.body.phone_number_seller:null
+                            const serial_number = ('serial_number' in req.body)?req.body.serial_number:''
+                            const additional_description = ('additional_description' in req.body)?req.body.additional_description:''
+                            const seller_name = ('seller_name' in req.body)? req.body.seller_name:''
+                            const seller_adress = ('seller_adress' in req.body)? req.body.seller_adress:''
+                            const seller_email = ('seller_email' in req.body)? req.body.seller_email:''
+                            const phone_number_seller = ('phone_number_seller' in req.body)? req.body.phone_number_seller:''
                             const comment = ('comment' in req.body)? req.body.comment:''
                             //wymagane
                             const item_name = req.body.item_name
@@ -100,43 +100,38 @@ add_item.post('/addItem',async(req,res)=>{
                                 const {slots} = await get_user_info_from_db({uid:res.locals.user.uid,type:"slots"})
                                 if(slots !=0 &&Math.sign(slots) != -1){
                                     const count = slots-1;
-                                    try {
+                                  
                                         await add_item_to_user_and_remove_slot({
                                             uid:uid,
                                             private_id:private_id,
                                             slots:count
                                         })
                                         return res.json({message:"Przedmiot został dodany"})
-                                    } catch (error) {
-                                        await remove_file(path)
-                                        await remove_item_from_db({
-                                            collection:'Items',
-                                            doc:private_id
-                                        })
-                                        return res.json({message:"Dodawanie przedmiotu nie powiodło się"}) 
-                                    }
                                    
                                 }else{
                                     return res.json({message:"Brak wolnych slotów, dokup je"})  
                                 }
                             } catch (error) {
                                 //usuwam pliki oraz usuwam przedmiot ktory został dodany
-                                await remove_file(path)
-                                await remove_item_from_db({
-                                    collection:'Items',
-                                    doc:private_id
-                                })
+                                try {await remove_file(path)} catch (error) {}
+                                try {
+                                    await remove_item_from_db({
+                                        collection:'Items',
+                                        doc:private_id
+                                    })
+                                } catch (error) {}
+                              
                                 return res.json({message:"Dodawanie przedmiotu nie powiodło się"}) 
                             }
                             
                         } catch (error) {
                           //Usuwam to co dodałem i zwracam błąd
-                          await remove_file(path)
+                          try {await remove_file(path)} catch (error) {}
                           return res.json({message:"Dodawanie przedmiotu nie powiodło się"}) 
                         }
                     } catch (error) {
                         //Usuwam to co dodałem i zwracam błąd
-                        await remove_file(path)
+                        try {await remove_file(path)} catch (error) {}
                         return res.json({message:"Dodawanie przedmiotu nie powiodło się"})            
                     }
                 } catch (error) {

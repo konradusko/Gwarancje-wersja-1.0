@@ -51,7 +51,7 @@ app.post('/getUserInfo',middleware_token_check,get_user_info)
 app.post('/addItem',middleware_token_check,middleware_config,add_item)
 app.post('/addItemEvent',middleware_token_check,get_item_id_using_public,middleware_config,addItemEvent)
 app.post('/removeItem',middleware_token_check,get_item_id_using_public,remove_item)
-app.post('getAllItems',middleware_token_check,get_all_items)
+app.post('/getAllItems',middleware_token_check,get_all_items)
 
 
 

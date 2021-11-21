@@ -2,7 +2,6 @@ import express from "express"
 const addItemEvent = express.Router()
 import {add_item_check_files} from '../../modules/after_auth/add_item_check_files.js'
 import {makeId} from "../../modules/global/makeId.js"
-import {add_photo_to_storage} from '../../modules/global/add_photo_to_storage.js'
 import {add_event_to_db} from '../../modules/after_auth/add_event_to_db.js'
 import {remove_item_from_db} from '../../modules/global/remove_item_from_db.js'
 import {add_item_to_event} from '../../modules/after_auth/add_event_to_item.js'
@@ -66,15 +65,16 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
                         })
                     } catch (error) {
                         //usuwanie zdjec i dodany event
-                        await remove_item_from_db({
-                            collection:'Events',
-                            doc:private_id
-                        })
+                        try {await remove_item_from_db({
+                                collection:'Events',
+                                doc:private_id
+                            })} catch (error) {}
+                       
                         if(added_photos.length >0){
-                            for(let q=0;q<added_photos.length;q++){
-                                await remove_file(added_photos[q].path)
-                            }
-                        }
+                             for(let q=0;q<added_photos.length;q++){
+                                 try { await remove_file(added_photos[q].path)} catch (error) { }
+                             }
+                         }
                         return res.json({message:"Dodawanie przedmiotu nie powiodło się"}) 
                     }
                  
@@ -82,7 +82,7 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
                     //usuwam dodane zdjecia
                     if(added_photos.length >0){
                         for(let q=0;q<added_photos.length;q++){
-                            await remove_file(added_photos[q].path)
+                            try { await remove_file(added_photos[q].path)} catch (error) { }
                         }
                     }
                     return res.json({message:"Dodawanie przedmiotu nie powiodło się"}) 

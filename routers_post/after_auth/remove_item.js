@@ -13,7 +13,7 @@ remove_item.post('/removeItem',async(req,res)=>{
     //usuniecie przedmiotu
     try {
         await remove_item_from_user({uid,item_id})
-        const {events} = await get_item_info_by_id({uid:uid,case:"events",collection_name:'Items'})
+        const {events} = await get_item_info_by_id({id:item_id,action:"events",collection_name:'Items'})
         if(events.length>0)
         for(let _=0;_<events.length;_++){
             try {
@@ -21,9 +21,7 @@ remove_item.post('/removeItem',async(req,res)=>{
             } catch (error) {            }
         }
         //usuwanie zdjeć
-        try {
-            await await remove_file(`Items/${item_id}`)
-        } catch (error) {}
+        try { await await remove_file(`Items/${item_id}`) } catch (error) {}
         //usuwanie przedmiotu
         try {
             await remove_item_from_db({collection:'Items',doc:item_id})
