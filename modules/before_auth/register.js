@@ -10,9 +10,9 @@ const register = (data)=>{
     return new Promise(async(res,rej)=>{
         //validacja
 
-        const add_user = async (url,uid)=>{
+        const add_user = async (avatar,uid)=>{
             try {
-                await add_new_user_to_db(uid,url)
+                await add_new_user_to_db(uid,avatar)
                 res()//git
            } catch (error) {
                //tutaj nalezy usunac usera bo jakims cudem nie dodał sie do bazy danych 
@@ -29,21 +29,42 @@ const register = (data)=>{
             })
             switch (data.img) {
                 case 1:
-                    add_user('PATH TO URL',user.uid)
+                    add_user({
+                        path:'url',
+                        id:await makeId(10),
+                        type:'type'
+                    },user.uid)
                     break;
                 case 2:
-                    add_user('PATH TO URL',user.uid)
+                    add_user({
+                        path:'url',
+                        id:await makeId(10),
+                        type:'type'
+                    },user.uid)
                     break;
                  case 3:
-                    add_user('PATH TO URL',user.uid)
+                    add_user({
+                        path:'url',
+                        id:await makeId(10),
+                        type:'type'
+                    },user.uid)
                     break;
                 default:
-                    const url_name_photo = `UsersPhotos/${user.uid}/user_photo.${(data.img.type).split('/')[1]}`
+
+                    const url_name_photo = (avatar_object.obj.type == "image/jpeg" || avatar_object.obj.type == "image/jpg")?`UsersPhotos/${user.uid}/user_photo.jpg`:`UsersPhotos/${user.uid}/user_photo.png`
                     try {
                         await add_photo_to_storage(data.img,url_name_photo) // próbujemy dodac obrazek do firestore
-                        add_user(url_name_photo,user.uid)
+                        add_user({
+                            path:url,
+                            id:await makeId(10),
+                            type:data.img.type
+                        },user.uid)
                     }catch(err){
-                        add_user('default user photo url',user.uid)//nie udalo sie dodac obrazka wiec wybierzemy defaultowy i dalej utworzymy konto
+                        add_user({
+                            path:'url',
+                            id:await makeId(10),
+                            type:'type'
+                        },user.uid)//nie udalo sie dodac obrazka wiec wybierzemy defaultowy i dalej utworzymy konto
                     }
                     break;
             }

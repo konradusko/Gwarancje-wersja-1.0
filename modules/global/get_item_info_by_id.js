@@ -35,6 +35,7 @@ const get_item_info_by_id = (data)=>{
                                 avatar:{
                                     avatar_id:items_data._fieldsProto.avatar.mapValue.fields.id.stringValue,
                                     avatar_path:items_data._fieldsProto.avatar.mapValue.fields.path.stringValue,
+                                    avatar_type:items_data._fieldsProto.avatar.mapValue.fields.type.stringValue,
                                 },
                                 files:items_data._fieldsProto.files.arrayValue.values,
                                 events:items_data._fieldsProto.events.arrayValue.values,

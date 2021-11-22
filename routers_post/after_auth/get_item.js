@@ -1,8 +1,8 @@
 import express from "express"
 const get_item = express.Router()
 import {get_item_info_by_id} from '../../modules/global/get_item_info_by_id.js'
-import {create_token_photo} from "../../modules/global/access_token_photo.js"
 import {create_obj_with_tokens_files} from '../../modules/global/create_obj_with_tokens_files.js'
+import {create_avatar_obj_with_tokens} from '../../modules/global/create_avatar_obj_with_tokens.js'
 get_item.post('/getItem',async (req,res)=>{
 
     const minutes_for_token_photo = 20
@@ -11,9 +11,7 @@ get_item.post('/getItem',async (req,res)=>{
     let item_to_send = {
         events:[],
         files:[],
-        avatar:{
-
-        }
+        avatar:{}
     }
     let tmp;
     try {
@@ -37,16 +35,9 @@ get_item.post('/getItem',async (req,res)=>{
             }
 
         }
-         //zrobienie avatara
-                console.log(item_value.avatar)
-            try {
-                item_to_send.avatar.avatar_path = (await create_token_photo(item_value.avatar.avatar_path,minutes_for_token_photo))[0]
-                item_to_send.avatar.id = item_value.avatar.avatar_id;
-            } catch (error) {
-                item_to_send.avatar.avatar_path = undefined;
-                item_to_send.avatar.id = item_value.avatar.avatar_id;
-            }
-                //zrobienie przedmiotów
+
+        
+            item_to_send.avatar = await create_avatar_obj_with_tokens({avatar:item_value.avatar,minutes:minutes_for_token_photo})
             if(item_value.files.length !=0)
                 item_to_send.files = await create_obj_with_tokens_files({array_of_items:item_value.files,minutes:minutes_for_token_photo})
 

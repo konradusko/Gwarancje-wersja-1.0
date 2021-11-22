@@ -4,13 +4,18 @@ const get_user_info_from_db = (data)=>{
     //data zawiera w sobie uid oraz do switcha opcje
     return new Promise(async(res,rej)=>{
         const {uid,type} =data
+        console.log(uid)
        const user_data = await firestore().collection("Users").doc(uid).get()
         if(user_data.exists){
             switch (type) {
                 case "photo_slots":
                     res({
                         slots:user_data._fieldsProto.slots.integerValue,
-                        photo:user_data._fieldsProto.photo.stringValue
+                        avatar:{
+                            avatar_id:user_data._fieldsProto.avatar.mapValue.fields.id.stringValue,
+                            avatar_path:user_data._fieldsProto.avatar.mapValue.fields.path.stringValue,
+                            avatar_type:user_data._fieldsProto.avatar.mapValue.fields.type.stringValue,
+                        },
                     })
                     break;
                 case "slots":

@@ -51,6 +51,7 @@ import {addItemEvent} from "./routers_post/after_auth/add_Item_Event.js"
 import {remove_item} from './routers_post/after_auth/remove_item.js'
 import {get_all_items} from './routers_post/after_auth/get_all_items.js'
 import {get_item} from './routers_post/after_auth/get_item.js'
+import {remvove_event} from './routers_post/after_auth/remove_event.js'
 app.post('/registerUser',createAccountLimiter,middleware_config,before_auth_POST_register)
 app.post('/getUserInfo',middleware_token_check,get_user_info)
 app.post('/addItem',middleware_token_check,middleware_config,add_item)
@@ -58,7 +59,7 @@ app.post('/addItemEvent',middleware_token_check,get_item_id_using_public_and_che
 app.post('/removeItem',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,remove_item)
 app.post('/getAllItems',middleware_token_check,get_all_items)
 app.post('/getItem',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,get_item)
-
+app.post('/removeEvent',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,remvove_event)
 
 
 app.listen(PORT, () => {
