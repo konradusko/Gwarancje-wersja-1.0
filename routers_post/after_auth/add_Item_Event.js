@@ -7,14 +7,13 @@ import {remove_item_from_db} from '../../modules/global/remove_item_from_db.js'
 import {add_item_to_event} from '../../modules/after_auth/add_event_to_item.js'
 import {check_format_and_add_file} from '../../modules/after_auth/add_files_to_db_pre_functions.js'
 addItemEvent.post('/addItemEvent',async(req,res)=>{
-    //ZROBIC VALIDACJE NAZWY
+    //ZROBIC VALIDACJE NAZWY !
 
 
     
     const max_files_in_event = res.locals.max_item
     const max_size_files_in_event = res.locals.max_size_file
     //sprawdzic ten konkretny przedmiot
-    console.log(res.locals.item_id)
     if(!('date' in req.body))
         return res.json({message:'Wydarzenie musi zawierać date!'})
     if(!('description' in req.body))
@@ -47,11 +46,9 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
             const date = req.body.date
             const description = req.body.description
             const name = req.body.name
-
     
                 try {
                 const added_photos = (files === null)? [] : await check_format_and_add_file({path:path,array_files:files})
-
                //dodawanie eventu do bazy danych
                 await add_event_to_db({
                     public_id,
@@ -69,6 +66,7 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
                             item_Mother,
                             private_id
                         })
+                        return res.json({message:'Event został dodany do bazy danych'})
                     } catch (error) {
                         //usuwanie zdjec i dodany event
                         try {await remove_item_from_db({
@@ -96,6 +94,7 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
            
             
         } catch (error) {
+            console.log('czy to ???')
             return res.json({message:error})
         }
     }

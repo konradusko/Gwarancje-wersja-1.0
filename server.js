@@ -11,6 +11,8 @@ import {middleware_token_check} from './modules/middleware/middleware_token_very
 import {get_item_id_using_public_and_check_owner_middleware} from './modules/middleware/middleware_get_id_item.js'
 //middleware ktory przekazuje wartosci
 import {middleware_config} from './modules/middleware/middleware_config.js'
+//middleware ktory sprawdza uprawnienia do eventu i zwraca prive_id
+import {middleware_get_event_owner_by_public_id} from './modules/middleware/middleware_get_event_owner_by_public_id.js'
 firebase.initializeApp({
     credential: firebase.credential.cert(serviceAccount),
     storageBucket:"gs://paragonytest-7d604.appspot.com/"
@@ -59,7 +61,7 @@ app.post('/addItemEvent',middleware_token_check,get_item_id_using_public_and_che
 app.post('/removeItem',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,remove_item)
 app.post('/getAllItems',middleware_token_check,get_all_items)
 app.post('/getItem',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,get_item)
-app.post('/removeEvent',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,remvove_event)
+app.post('/removeEvent',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_get_event_owner_by_public_id,remvove_event)
 
 
 app.listen(PORT, () => {

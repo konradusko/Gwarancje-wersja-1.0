@@ -7,9 +7,8 @@ get_user_info.post('/getUserInfo',async(req,res)=>{
     const minutes_for_token_photo = 20
     try {
         const {slots,avatar} = await get_user_info_from_db({uid:res.locals.user.uid,type:"photo_slots"})
-        console.log(avatar)
         try {
-            const access_token_photo = await create_avatar_obj_with_tokens({avatar,minutes_for_token_photo})
+            const access_token_photo = await create_avatar_obj_with_tokens({avatar:avatar,minutes:minutes_for_token_photo})
             return res.json({slots:slots,photo:access_token_photo})
         } catch (error) {
             return res.json({slots:slots,photo:null})
