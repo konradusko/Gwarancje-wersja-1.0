@@ -6,7 +6,7 @@ const add_item_to_event = (data)=>{
         const itemRef =  firestore().collection("Items");
         try {
             itemRef.doc(item_Mother).set({
-                items:firestore.FieldValue.arrayUnion(private_id)
+                events:firestore.FieldValue.arrayUnion(private_id)
             },{merge:true})
             res()
         } catch (error) {

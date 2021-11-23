@@ -66,6 +66,12 @@ const get_item_info_by_id = (data)=>{
                                 date_of_event:items_data._fieldsProto.date_of_event.stringValue,
                             })
                 break;
+                case 'event_added_by':
+                    res({added_by:items_data._fieldsProto.added_by.stringValue})
+                break;
+                case 'event_files':
+                    res({files:items_data._fieldsProto.files.arrayValue.values})
+                break;
                 default:
                     rej()
                 break;

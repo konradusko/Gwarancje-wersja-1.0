@@ -3,7 +3,8 @@ const create_avatar_obj_with_tokens = (data)=>{
     return new Promise(async(res,rej)=>{
         const {avatar,minutes} = data
         let obj = {}
-        console.log(avatar)
+        // console.log(avatar)
+        console.log(minutes)
             try {
                 obj.avatar_path = (await create_token_photo(avatar.avatar_path,minutes))[0]
             } catch (error) {
