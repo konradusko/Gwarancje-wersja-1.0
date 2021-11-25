@@ -27,43 +27,48 @@ const register = (data)=>{
                 password:data.password,
                 displayName:data.name
             })
-            switch (data.img) {
+            switch (data.avatar) {
                 case 1:
                     add_user({
                         path:'url',
                         id:await makeId(10),
-                        type:'type'
+                        type:'type',
+                        public:true
                     },user.uid)
                     break;
                 case 2:
                     add_user({
                         path:'url',
                         id:await makeId(10),
-                        type:'type'
+                        type:'type',
+                        public:true
                     },user.uid)
                     break;
                  case 3:
                     add_user({
                         path:'url',
                         id:await makeId(10),
-                        type:'type'
+                        type:'type',
+                        public:true
                     },user.uid)
                     break;
                 default:
 
                     const url_name_photo = (avatar_object.obj.type == "image/jpeg" || avatar_object.obj.type == "image/jpg")?`UsersPhotos/${user.uid}/user_photo.jpg`:`UsersPhotos/${user.uid}/user_photo.png`
                     try {
-                        await add_photo_to_storage(data.img,url_name_photo) // próbujemy dodac obrazek do firestore
+                        await add_photo_to_storage(data.avatar,url_name_photo) // próbujemy dodac obrazek do firestore
                         add_user({
                             path:url,
                             id:await makeId(10),
-                            type:data.img.type
+                            type:data.avatar.type,
+                            public:false
                         },user.uid)
                     }catch(err){
                         add_user({
                             path:'url',
                             id:await makeId(10),
-                            type:'type'
+                            type:'type',
+                            public:true
                         },user.uid)//nie udalo sie dodac obrazka wiec wybierzemy defaultowy i dalej utworzymy konto
                     }
                     break;

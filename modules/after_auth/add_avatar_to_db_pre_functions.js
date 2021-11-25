@@ -8,7 +8,8 @@ const check_format_and_add_avatar = (data)=>{
             avatar_object ={
                 path:'scieżka do przykladowego',
                 type:'tyyyypp',
-                id: await makeId(10)
+                id: await makeId(10),
+                public:true
             }
             res(avatar_object)
         }
@@ -27,7 +28,8 @@ const check_format_and_add_avatar = (data)=>{
                const obj_to_return={
                     path:avatar_object.path,
                     type:avatar_object.obj.type,
-                    id:await makeId(10)
+                    id:await makeId(10),
+                    public:false
                 }
                 res(obj_to_return)
             } catch (error) {
