@@ -54,6 +54,8 @@ import {remove_item} from './routers_post/after_auth/remove_item.js'
 import {get_all_items} from './routers_post/after_auth/get_all_items.js'
 import {get_item} from './routers_post/after_auth/get_item.js'
 import {remvove_event} from './routers_post/after_auth/remove_event.js'
+import {remove_user_avatar} from './routers_post/after_auth/remove_user_avatar.js'
+import {add_new_avatar_to_userPOSTREQ} from './routers_post/after_auth/add_new_avatar_to_user.js'
 app.post('/registerUser',createAccountLimiter,middleware_config,before_auth_POST_register)
 app.post('/getUserInfo',middleware_token_check,get_user_info)
 app.post('/addItem',middleware_token_check,middleware_config,add_item)
@@ -62,7 +64,8 @@ app.post('/removeItem',middleware_token_check,get_item_id_using_public_and_check
 app.post('/getAllItems',middleware_token_check,get_all_items)
 app.post('/getItem',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,get_item)
 app.post('/removeEvent',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_get_event_owner_by_public_id,remvove_event)
-
+app.post('/removeUserAvatar',middleware_token_check,remove_user_avatar)
+app.post('/addNewAvatarUser',middleware_token_check,middleware_config,add_new_avatar_to_userPOSTREQ)
 
 app.listen(PORT, () => {
     console.log(`Listening on http://localhost:${PORT}`);

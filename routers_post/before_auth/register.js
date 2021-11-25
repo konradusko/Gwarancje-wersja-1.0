@@ -11,14 +11,14 @@ before_auth_POST_register.post('/registerUser',async(req,res)=>{
                 name:req.body.name,
                 email:req.body.email,
                 password:req.body.password,
-                img:photo
+                avatar:photo
             })
             return res.json({message:"Konto zostało utworzone ! Możesz się zalogować"})
         } catch (error) {
             return res.json({message:error})
         }
     }
-    if(!("name" in req.body) ||!("password" in req.body)||!("email" in req.body)||!("img" in req.body))
+    if(!("name" in req.body) ||!("password" in req.body)||!("email" in req.body)||!("avatar" in req.body))
        return res.json({message:"Brak wszystkich danych"})
 
     if(req.body.name.length <name_minimum_length && req.body.name.length <=name_max_length)
@@ -31,9 +31,9 @@ before_auth_POST_register.post('/registerUser',async(req,res)=>{
     const validate_email = reg_exp_mail_validate.test(String(req.body.email).toLowerCase()) == true? true:false
     if(!validate_email)
         return res.json({message:"Email jest zły !"})
-    if(req.body.img != 1 || req.body.img != 2|| req.body.img != 3){
+    if(req.body.avatar != 1 || req.body.avatar != 2|| req.body.avatar != 3){
         try {
-            const photo = await fetch_photo(req.body.img)
+            const photo = await fetch_photo(req.body.avatar)
             const max_size =res.locals.max_size_file // bajty
             if(photo.type == "image/jpeg" || photo.type == "image/png"||photo.type == "image/jpg"){}else{
                 return res.json({message:"Zdjęcie ma zły format !"})
@@ -46,7 +46,7 @@ before_auth_POST_register.post('/registerUser',async(req,res)=>{
         }
       
     }else{
-        reg(req.body.img)
+        reg(req.body.avatar)
     }
   
    

@@ -56,7 +56,7 @@ export default async function main(){
 
 firebase.auth().currentUser.getIdToken()
 .then((token)=>{
-    fetch("/removeEvent",{
+    fetch("/removeUserAvatar",{
         method:"POST",
         headers:{
             Accept: "application/json",
@@ -64,8 +64,7 @@ firebase.auth().currentUser.getIdToken()
         },
         body:JSON.stringify({
             token,
-            public_id_item:'t1RbsDSsdLPXAD9MYrjK',
-            event_public_id:'jOsi3qmE3Iflj4O'
+            avatar_id:'dewq321'
             
 
         })
