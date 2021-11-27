@@ -54,9 +54,34 @@ export default async function main(){
 
 
 
+// firebase.auth().currentUser.getIdToken()
+// .then((token)=>{
+//     fetch("/removeUserAvatar",{
+//         method:"POST",
+//         headers:{
+//             Accept: "application/json",
+//         "Content-Type": "application/json",
+//         },
+//         body:JSON.stringify({
+//             token,
+//             avatar_id:'dewq321'
+            
+
+//         })
+// })
+// .then(response => response.json()) // convert to json
+// .then((json)=>{
+//     console.log(json)
+// })
+// })
+// .catch((er)=>{
+//     console.log(er)
+// })
+
+
 firebase.auth().currentUser.getIdToken()
 .then((token)=>{
-    fetch("/removeUserAvatar",{
+    fetch("/removeItemFiles",{
         method:"POST",
         headers:{
             Accept: "application/json",
@@ -64,7 +89,8 @@ firebase.auth().currentUser.getIdToken()
         },
         body:JSON.stringify({
             token,
-            avatar_id:'dewq321'
+            public_id_item:"i5nf0yblAKYCnI8DRjhh",
+            item_photo_id_to_del:"Ygt1P9qTcK"
             
 
         })
@@ -77,6 +103,7 @@ firebase.auth().currentUser.getIdToken()
 .catch((er)=>{
     console.log(er)
 })
+
 
 
 

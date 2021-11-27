@@ -5,9 +5,10 @@ import {create_obj_with_tokens_files} from '../../modules/global/create_obj_with
 import {create_avatar_obj_with_tokens} from '../../modules/global/create_avatar_obj_with_tokens.js'
 get_item.post('/getItem',async (req,res)=>{
 
-    const minutes_for_token_photo = 20
+    const minutes_for_token_photo = 20//potem to z configa wziac
     const uid = res.locals.user.uid
     const item_id = res.locals.item_id
+    console.log(item_id)
     let item_to_send = {
         events:[],
         files:[],
@@ -15,8 +16,8 @@ get_item.post('/getItem',async (req,res)=>{
     }
     let tmp;
     try {
+        console.log('XD')
         const item_value = await get_item_info_by_id({id:item_id,action:"whole_item",collection_name:'Items'})
-        console.log(item_value)
         if(item_value.events.length != 0)
         for(let _=0;_<item_value.events;_++){
             try {//pobieram info i eventach

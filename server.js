@@ -56,6 +56,10 @@ import {get_item} from './routers_post/after_auth/get_item.js'
 import {remvove_event} from './routers_post/after_auth/remove_event.js'
 import {remove_user_avatar} from './routers_post/after_auth/remove_user_avatar.js'
 import {add_new_avatar_to_userPOSTREQ} from './routers_post/after_auth/add_new_avatar_to_user.js'
+import {remove_item_avatar} from './routers_post/after_auth/remove_item_avatar.js'
+import {add_new_avatar_to_itemPOSTREQ} from './routers_post/after_auth/add_new_avatar_to_item.js'
+import {remove_item_files} from './routers_post/after_auth/remove_item_files.js'
+import {remove_event_files} from './routers_post/after_auth/remove_event_files.js'
 app.post('/registerUser',createAccountLimiter,middleware_config,before_auth_POST_register)
 app.post('/getUserInfo',middleware_token_check,get_user_info)
 app.post('/addItem',middleware_token_check,middleware_config,add_item)
@@ -66,6 +70,12 @@ app.post('/getItem',middleware_token_check,get_item_id_using_public_and_check_ow
 app.post('/removeEvent',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_get_event_owner_by_public_id,remvove_event)
 app.post('/removeUserAvatar',middleware_token_check,remove_user_avatar)
 app.post('/addNewAvatarUser',middleware_token_check,middleware_config,add_new_avatar_to_userPOSTREQ)
+app.post('/removeItemAvatar',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,remove_item_avatar)
+app.post('/addNewAvatarItem',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_config,add_new_avatar_to_itemPOSTREQ)
+app.post('/removeItemFiles',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,remove_item_files)
+app.post('/removeEventFiles',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_get_event_owner_by_public_id,remove_event_files)
+//usuniecie zdj eventu
+//dodanie zdj do eventu/przedmiotu
 
 app.listen(PORT, () => {
     console.log(`Listening on http://localhost:${PORT}`);

@@ -12,7 +12,7 @@ remove_item.post('/removeItem',async(req,res)=>{
     //usuniecie eventow
     //usuniecie przedmiotu
     try {
-        await remove_item_from_array_db({doc_id:uid,item_id,collection:'Items'})
+        await remove_item_from_array_db({doc_id:uid,item_id,collection:'Users',option:"user"})
         const {events} = await get_item_info_by_id({id:item_id,action:"events",collection_name:'Items'})
         if(events.length>0)
         for(let _=0;_<events.length;_++){

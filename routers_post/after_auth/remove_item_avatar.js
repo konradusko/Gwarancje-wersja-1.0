@@ -1,28 +1,33 @@
 import express from "express"
-const remove_user_avatar = express.Router()
-import {remove_file} from '../../modules/global/remove_file_in_storage.js'
-import {get_user_info_from_db} from "../../modules/after_auth/get_users_info.js"
+const remove_item_avatar = express.Router()
+import {get_item_info_by_id} from '../../modules/global/get_item_info_by_id.js'
 import {add_new_avatar} from '../../modules/after_auth/add_new_avatar.js'
 import {makeId} from '../../modules/global/makeId.js'
-remove_user_avatar.post('/removeUserAvatar', async(req,res)=>{
-    const uid = res.locals.user.uid;
-    const item_id = res.locals.item_id;
+import {remove_file} from '../../modules/global/remove_file_in_storage.js'
+remove_item_avatar.post('/removeItemAvatar',async(req,res)=>{
+    const uid = res.locals.user.uid
+    const item_id = res.locals.item_id
+    if(!('avatar_id' in req.body))
+        return res.json({message:"Brakuje id avataru."})
+
     if('avatar_id' in req.body){
+        //mamy id avatara
         try {
-            const {avatar} = await get_user_info_from_db({uid:uid,type:"avatar"})
+            const {avatar} = await get_item_info_by_id({id:item_id,action:"avatar",collection_name:'Items'})
             if(avatar.avatar_id != req.body.avatar_id)
             return res.json({message:'Podane id nie istnieje.'})
-
+    
             if(avatar.avatar_id === req.body.avatar_id && avatar.avatar_public === true)
             return res.json({message:"Nie można usunąć publicznego avatara."})
-
+    
             const new_avatar = {
                 path:'url',
                 id:await makeId(10),
                 type:'type',
                 public:true
             }
-            await add_new_avatar({uid:item_id,avatar:new_avatar,collection:'Users'})
+
+            await add_new_avatar({uid:uid,avatar:new_avatar,collection:'Items'})
             try {
                 //usuwamy starego
                 await remove_file(avatar.path)
@@ -34,8 +39,5 @@ remove_user_avatar.post('/removeUserAvatar', async(req,res)=>{
             return res.json({message:"Coś poszło nie tak."})
         }
     }
-
-    if(!('avatar_id' in req.body))
-    return res.json({message:"Brakuje id avataru."})
 })
-export{remove_user_avatar}
+export{remove_item_avatar}

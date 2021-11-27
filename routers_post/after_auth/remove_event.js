@@ -22,7 +22,7 @@ remvove_event.post('/removeEvent',async(req,res)=>{
          }
          //teraz usunac od uzytkownika
          try {
-             await remove_item_from_array_db({doc_id:item_id,item_id:event_id,collection:'Items'})
+             await remove_item_from_array_db({doc_id:item_id,item_id:event_id,collection:'Items',option:'event'})
              //usunąć z bazy danych
              await remove_item_from_db({collection:"Events",doc:event_id})
              return res.json({message:'Event został usunięty pomyślnie.'})
