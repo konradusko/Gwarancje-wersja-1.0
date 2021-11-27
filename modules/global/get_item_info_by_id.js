@@ -20,8 +20,11 @@ const get_item_info_by_id = (data)=>{
                     case 'home_data':
                         res(
                         {
-                            avatar_id:items_data._fieldsProto.avatar.mapValue.fields.id.stringValue,
-                            avatar_path:items_data._fieldsProto.avatar.mapValue.fields.path.stringValue,
+                            avatar:{
+                                avatar_id:items_data._fieldsProto.avatar.mapValue.fields.id.stringValue,
+                                avatar_path:items_data._fieldsProto.avatar.mapValue.fields.path.stringValue,
+                                avatar_type:items_data._fieldsProto.avatar.mapValue.fields.type.stringValue,
+                            },
                             item_name:items_data._fieldsProto.item_name.stringValue,
                             date_start:items_data._fieldsProto.warranty_start_date.stringValue,
                             date_end:items_data._fieldsProto.warranty_end_date.stringValue,
@@ -30,12 +33,14 @@ const get_item_info_by_id = (data)=>{
                         )
                     break;
                     case 'whole_item':
+                        console.log(items_data)
                         res(
                             {
                                 avatar:{
                                     avatar_id:items_data._fieldsProto.avatar.mapValue.fields.id.stringValue,
                                     avatar_path:items_data._fieldsProto.avatar.mapValue.fields.path.stringValue,
                                     avatar_type:items_data._fieldsProto.avatar.mapValue.fields.type.stringValue,
+                                    avatar_public:items_data._fieldsProto.avatar.mapValue.fields.public.booleanValue
                                 },
                                 files:items_data._fieldsProto.files.arrayValue.values,
                                 events:items_data._fieldsProto.events.arrayValue.values,
@@ -72,12 +77,24 @@ const get_item_info_by_id = (data)=>{
                 case 'event_files':
                     res({files:items_data._fieldsProto.files.arrayValue.values})
                 break;
+                case 'avatar':
+                            res({avatar:{
+                                avatar_id:items_data._fieldsProto.avatar.mapValue.fields.id.stringValue,
+                                avatar_path:items_data._fieldsProto.avatar.mapValue.fields.path.stringValue,
+                                avatar_type:items_data._fieldsProto.avatar.mapValue.fields.type.stringValue,
+                                avatar_public:items_data._fieldsProto.avatar.mapValue.fields.public.booleanValue
+                            }})
+                break;
+                case 'item_files':
+                    res({files:items_data._fieldsProto.files.arrayValue.values})
+                break;
                 default:
                     rej()
                 break;
                 }
             }
         } catch (error) {
+            console.log(error)
             rej()
         }
     })
