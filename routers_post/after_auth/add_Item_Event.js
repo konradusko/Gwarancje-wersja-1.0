@@ -6,6 +6,7 @@ import {add_event_to_db} from '../../modules/after_auth/add_event_to_db.js'
 import {remove_item_from_db} from '../../modules/global/remove_item_from_db.js'
 import {add_item_to_event} from '../../modules/after_auth/add_event_to_item.js'
 import {check_format_and_add_file} from '../../modules/after_auth/add_files_to_db_pre_functions.js'
+import {remove_file} from '../../modules/global/remove_file_in_storage.js'
 addItemEvent.post('/addItemEvent',async(req,res)=>{
     //ZROBIC VALIDACJE NAZWY !
 
@@ -83,12 +84,7 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
                     }
                  
                 } catch (error) {
-                    //usuwam dodane zdjecia
-                    if(added_photos.length >0){
-                        for(let q=0;q<added_photos.length;q++){
-                            try { await remove_file(added_photos[q].path)} catch (error) { }
-                        }
-                    }
+                
                     return res.json({message:"Dodawanie przedmiotu nie powiodło się"}) 
                 }
            

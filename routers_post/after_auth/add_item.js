@@ -2,7 +2,7 @@ import express from "express"
 const add_item = express.Router()
 import {get_user_info_from_db} from "../../modules/after_auth/get_users_info.js"
 import {add_item_validate} from '../../modules/after_auth/add_item_validate.js'
-import {fetch_photo} from '../../modules/global/promise_fetch_photo.js'
+// import {fetch_photo} from '../../modules/global/promise_fetch_photo.js'
 import {add_item_to_db} from '../../modules/after_auth/add_item_to_db.js'
 import {makeId} from "../../modules/global/makeId.js"
 import {remove_file} from '../../modules/global/remove_file_in_storage.js'
@@ -27,21 +27,10 @@ add_item.post('/addItem',async(req,res)=>{
             //potem sprawdzić zdjęcia
 
             //1. validacja danych czy wszystko mamy i wszystko jest jak powinno byc
-            try {
+      
                 // await add_item_validate(req.body)
+                const path = `Items/${private_id}/`
                 const uid = res.locals.user.uid
-
-                if("avatar" in req.body){
-                    const avatar = await fetch_photo(req.body.avatar)
-                    if(avatar.type == "image/jpeg" || avatar.type == "image/png" ||avatar.type == "image/jpg" ){
-                        if(avatar.size > max_size){
-                            return res.json({message:"Avatar jest za duży"})
-                        }
-                    }else{
-                        return res.json({message:'Avatar ma zły format'})
-                    }
-                }
-             
                 try {
                     const check_images = await add_item_check_files({body:req.body,max_files:max_files_in_event,max_size:max_size,allow_format:['image/jpeg',"image/png","image/jpg","application/pdf"]})
                     const avatar = await check_avatar_type({body:req.body,allow_format:['image/jpeg',"image/png","image/jpg"],max_size:max_size})
@@ -49,7 +38,7 @@ add_item.post('/addItem',async(req,res)=>{
                     //tutaj jeszcze validacje avatara zrobic
                     const public_id = await makeId(20)
                     const private_id = `${await makeId(15)}.${public_id}.${await makeId(10)}`
-                    const path = `Items/${private_id}/`
+
              
     
                     try {
@@ -134,15 +123,13 @@ add_item.post('/addItem',async(req,res)=>{
                     }
                 } catch (error) {
                     //validacja plikow
+                    try {await remove_file(path)} catch (error) {}
                     return res.json({message:error})
                 }
                 
 
                
-            } catch (error) {
-                //od validacji
-                return res.json({message:error})
-            }
+            
 
         }else{
             return res.json({message:"Brak wolnych slotów, dokup je"})

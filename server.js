@@ -60,6 +60,8 @@ import {remove_item_avatar} from './routers_post/after_auth/remove_item_avatar.j
 import {add_new_avatar_to_itemPOSTREQ} from './routers_post/after_auth/add_new_avatar_to_item.js'
 import {remove_item_files} from './routers_post/after_auth/remove_item_files.js'
 import {remove_event_files} from './routers_post/after_auth/remove_event_files.js'
+import {add_files_item} from './routers_post/after_auth/add_files_item.js'
+import {add_files_event} from './routers_post/after_auth/add_files_event.js'
 app.post('/registerUser',createAccountLimiter,middleware_config,before_auth_POST_register)
 app.post('/getUserInfo',middleware_token_check,get_user_info)
 app.post('/addItem',middleware_token_check,middleware_config,add_item)
@@ -74,8 +76,8 @@ app.post('/removeItemAvatar',middleware_token_check,get_item_id_using_public_and
 app.post('/addNewAvatarItem',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_config,add_new_avatar_to_itemPOSTREQ)
 app.post('/removeItemFiles',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,remove_item_files)
 app.post('/removeEventFiles',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_get_event_owner_by_public_id,remove_event_files)
-//usuniecie zdj eventu
-//dodanie zdj do eventu/przedmiotu
+app.post('/addFileItem',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_config,add_files_item)
+app.post('/addFileEvent',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_get_event_owner_by_public_id,middleware_config,add_files_event)
 
 app.listen(PORT, () => {
     console.log(`Listening on http://localhost:${PORT}`);
