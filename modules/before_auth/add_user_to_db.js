@@ -2,6 +2,7 @@ import pkg from "firebase-admin"
 const {firestore} = pkg
 import {makeId} from "../global/makeId.js"
 const add_new_user_to_db = (uid,avatar)=>{
+    console.log('dodaje')
     return new Promise(async(res,rej)=>{
         const usersRef =  firestore().collection("Users");
         const privateId = await makeId(40)

@@ -9,6 +9,7 @@ const register = (data)=>{
     */
     return new Promise(async(res,rej)=>{
         //validacja
+        let user={};
 
         const add_user = async (avatar,uid)=>{
             try {
@@ -22,13 +23,14 @@ const register = (data)=>{
            }
         }
         try {
-            const user =  await auth().createUser({
+             user =  await auth().createUser({
                 email:data.email,
                 password:data.password,
                 displayName:data.name
             })
             switch (data.avatar) {
                 case 1:
+                case '1':
                     add_user({
                         path:'url',
                         id:await makeId(10),
@@ -37,6 +39,7 @@ const register = (data)=>{
                     },user.uid)
                     break;
                 case 2:
+                case '2':
                     add_user({
                         path:'url',
                         id:await makeId(10),
@@ -45,6 +48,7 @@ const register = (data)=>{
                     },user.uid)
                     break;
                  case 3:
+                case '3':
                     add_user({
                         path:'url',
                         id:await makeId(10),
@@ -54,7 +58,7 @@ const register = (data)=>{
                     break;
                 default:
 
-                    const url_name_photo = (avatar_object.obj.type == "image/jpeg" || avatar_object.obj.type == "image/jpg")?`UsersPhotos/${user.uid}/user_photo.jpg`:`UsersPhotos/${user.uid}/user_photo.png`
+                    const url_name_photo = (data.avatar.type == "image/jpeg" || data.avatar.type == "image/jpg")?`UsersPhotos/${user.uid}/user_photo.jpg`:`UsersPhotos/${user.uid}/user_photo.png`
                     try {
                         await add_photo_to_storage(data.avatar,url_name_photo) // próbujemy dodac obrazek do firestore
                         add_user({
@@ -78,6 +82,14 @@ const register = (data)=>{
         } catch (error) {
             if("errorInfo"in error && "message"in error.errorInfo &&error.errorInfo.message === "The email address is already in use by another account.")
             rej('Ten email jest już zajęty !')
+            if('uid' in user){
+                await auth().deleteUser(user.uid).then((result)=>{
+                    rej("Utworzenie konta nie powiodło się !")
+                })
+                .catch((er)=>{
+                    rej("Utworzenie konta nie powiodło się !") 
+                })
+            }
             rej("Utworzenie konta nie powiodło się !")
         }
      
