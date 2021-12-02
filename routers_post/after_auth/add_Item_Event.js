@@ -25,7 +25,7 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
         //validacja daty
         if(!(typeof date_event === 'string'))
             return res.json({message:'Data musi być stringiem w formacie yyyy/mm/dd'})
-        if(typeof date_event === 'string' && Date.parse(date_event) === NaN)
+        if(typeof date_event === 'string' && Date.parse(date_event) === NaN) // mzienic bo nie moze byc rowne NAN XDD
             return res.json({message:'Data ma zły format.'})
 
         //validacja opisu

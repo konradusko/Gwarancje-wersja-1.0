@@ -2,7 +2,6 @@ import express from "express"
 const add_item = express.Router()
 import {get_user_info_from_db} from "../../modules/after_auth/get_users_info.js"
 import {add_item_validate} from '../../modules/after_auth/add_item_validate.js'
-// import {fetch_photo} from '../../modules/global/promise_fetch_photo.js'
 import {add_item_to_db} from '../../modules/after_auth/add_item_to_db.js'
 import {makeId} from "../../modules/global/makeId.js"
 import {remove_file} from '../../modules/global/remove_file_in_storage.js'
@@ -28,7 +27,7 @@ add_item.post('/addItem',async(req,res)=>{
 
             //1. validacja danych czy wszystko mamy i wszystko jest jak powinno byc
       
-                // await add_item_validate(req.body)
+                await add_item_validate(req.body)
                 const path = `Items/${private_id}/`
                 const uid = res.locals.user.uid
                 try {

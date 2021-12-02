@@ -62,6 +62,7 @@ import {remove_item_files} from './routers_post/after_auth/remove_item_files.js'
 import {remove_event_files} from './routers_post/after_auth/remove_event_files.js'
 import {add_files_item} from './routers_post/after_auth/add_files_item.js'
 import {add_files_event} from './routers_post/after_auth/add_files_event.js'
+import {update_Item} from './routers_post/after_auth/update_item.js'
 app.post('/registerUser',middleware_config,before_auth_POST_register)
 app.post('/getUserInfo',middleware_token_check,get_user_info)
 app.post('/addItem',middleware_token_check,middleware_config,add_item)
@@ -78,6 +79,7 @@ app.post('/removeItemFiles',middleware_token_check,get_item_id_using_public_and_
 app.post('/removeEventFiles',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_get_event_owner_by_public_id,remove_event_files)
 app.post('/addFileItem',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_config,add_files_item)
 app.post('/addFileEvent',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_get_event_owner_by_public_id,middleware_config,add_files_event)
+app.post('/updateItem',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_config,update_Item)
 //zrobić edycje przedmiotu
 //zrobć edycje eventu
 app.listen(PORT, () => {
