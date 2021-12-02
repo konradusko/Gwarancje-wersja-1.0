@@ -42,7 +42,7 @@ const get_user_info_from_db = (data)=>{
                 break
             }
         }else{
-            rej("Nie udało się pobrać informacji o użytkowniku !")
+           return rej("Nie udało się pobrać informacji o użytkowniku !")
         }
     })
 }

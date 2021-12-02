@@ -20,7 +20,7 @@ const create_obj_with_tokens_files = (data)=>{
                 })
             }
         }
-        res(array_to_response)
+       return res(array_to_response)
     })
 }
 export{create_obj_with_tokens_files}

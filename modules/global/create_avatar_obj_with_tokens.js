@@ -4,7 +4,6 @@ const create_avatar_obj_with_tokens = (data)=>{
         const {avatar,minutes} = data
         let obj = {}
         // console.log(avatar)
-        console.log(minutes)
             try {
                 obj.avatar_path = (await create_token_photo(avatar.avatar_path,minutes))[0]
             } catch (error) {
@@ -12,7 +11,7 @@ const create_avatar_obj_with_tokens = (data)=>{
             }
             obj.avatar_type = avatar.avatar_type
             obj.avatar_id = avatar.avatar_id
-            res(obj)
+           return res(obj)
     })
 }
 export{create_avatar_obj_with_tokens}

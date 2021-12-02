@@ -14,11 +14,11 @@ const register = (data)=>{
         const add_user = async (avatar,uid)=>{
             try {
                 await add_new_user_to_db(uid,avatar)
-                res()//git
+               return res()//git
            } catch (error) {
                //tutaj nalezy usunac usera bo jakims cudem nie dodał sie do bazy danych 
                await auth().deleteUser(uid).then((result)=>{
-                   rej("Utworzenie konta nie powiodło się !")
+                  return rej("Utworzenie konta nie powiodło się !")
                })
            }
         }

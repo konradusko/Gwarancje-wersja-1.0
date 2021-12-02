@@ -8,9 +8,9 @@ const add_item_to_event = (data)=>{
             itemRef.doc(item_Mother).set({
                 events:firestore.FieldValue.arrayUnion(private_id)
             },{merge:true})
-            res()
+            return res()
         } catch (error) {
-            rej(error)
+            return rej(error)
         }
     })
 }

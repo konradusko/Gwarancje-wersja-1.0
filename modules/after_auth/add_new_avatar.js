@@ -8,9 +8,9 @@ const add_new_avatar = (data)=>{
             usersRef.doc(uid).set({
                avatar:avatar
             },{merge:true})
-            res()
+           return res()
         } catch (error) {
-            rej(error)
+           return rej(error)
         }
     })
 }

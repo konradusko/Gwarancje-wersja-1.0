@@ -9,9 +9,9 @@ const add_item_to_user_and_remove_slot = (data)=>{
                 items:firestore.FieldValue.arrayUnion(private_id),
                 slots:slots
             },{merge:true})
-            res()
+           return res()
         } catch (error) {
-            rej(error)
+            return rej(error)
         }
    
     })

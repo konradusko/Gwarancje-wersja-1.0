@@ -26,7 +26,7 @@ const remove_item_from_array_db = (data)=>{
           
         } catch (error) {
             console.log(error)
-            rej()
+           return rej()
         }
     })
 }

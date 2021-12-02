@@ -94,7 +94,6 @@ const get_item_info_by_id = (data)=>{
                 }
             }
         } catch (error) {
-            console.log(error)
             rej()
         }
     })

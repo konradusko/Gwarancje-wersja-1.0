@@ -4,10 +4,10 @@ const check_token = (token)=>{
     return new Promise((res,rej)=>{
         auth().verifyIdToken(token)
             .then((decodedToken)=>{
-                res(decodedToken)
+               return res(decodedToken)
             })
             .catch((er)=>{
-                rej(er)
+               return rej(er)
             })
     })
 }

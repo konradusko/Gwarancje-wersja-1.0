@@ -26,13 +26,13 @@ const check_format_and_add_file = (data)=>{
                    for(let q=0;q<added.length;q++){
                     try { await remove_file(added[q].path)} catch (error) { }
                 }
-                rej()
+               return rej()
                 }
              
             }
-            res(added)
+           return res(added)
         } catch (error) {
-            rej()
+           return rej()
         }
      
     })

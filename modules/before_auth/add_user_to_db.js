@@ -12,9 +12,11 @@ const add_new_user_to_db = (uid,avatar)=>{
             public_id: privateId,
             avatar:avatar
         })
-        .then(()=>{res()})//dodany
+        .then(()=>{
+           return res()
+        })//dodany
         .catch((er)=>{
-            rej(er)//nie udało sie dodać
+           return rej(er)//nie udało sie dodać
         })
     })
 }

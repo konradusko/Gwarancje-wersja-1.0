@@ -10,10 +10,10 @@ const add_photo_to_storage = (img,name)=>{
         my_stream.write(buffer)
         my_stream.end()
         my_stream.on('error',()=>{
-            rej()
+           return rej()
         })
         my_stream.on('finish',()=>{
-           res()
+           return res()
         })
     })
 }

@@ -11,7 +11,7 @@ const check_format_and_add_avatar = (data)=>{
                 id: await makeId(10),
                 public:true
             }
-            res(avatar_object)
+           return res(avatar_object)
         }
 
         if(obj != null){
@@ -31,9 +31,9 @@ const check_format_and_add_avatar = (data)=>{
                     id:await makeId(10),
                     public:false
                 }
-                res(obj_to_return)
+               return res(obj_to_return)
             } catch (error) {
-                rej()
+               return rej()
             }
         }
     

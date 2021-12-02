@@ -10,9 +10,9 @@ const create_token_photo = (file,time)=>{
                 action: "read",
                 expires: Date.now() + create_minutes,
             })
-            res(url)
+           return res(url)
         }else{
-            rej('Zdjęcie nie istnieje!')
+           return rej('Zdjęcie nie istnieje!')
         }
     })
 }

@@ -3,8 +3,6 @@ const {firestore} = pkg
 const add_event_to_db = (data)=>{
     return new Promise((res,rej)=>{
         //dodac date dodania
-        console.log('toototoehehhehehheheh')
-        console.log('XD')
         const {
             public_id,
             added_photos,
@@ -27,12 +25,12 @@ const add_event_to_db = (data)=>{
         })
         .then(()=>{
             console.log('dodany')
-            res()
+            return res()
         })//dodany
         .catch((er)=>{
             console.log('o huj tu chodzi ')
             console.log(er)
-            rej(er)//nie udało sie dodać
+           return rej(er)//nie udało sie dodać
         })
     })
 }

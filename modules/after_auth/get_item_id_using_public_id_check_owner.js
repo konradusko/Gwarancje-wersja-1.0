@@ -7,7 +7,7 @@ const get_item_id_by_public_id_check_owner = (data)=>{
                 const {items} = await get_user_info_from_db({uid:uid,type:"items"})
                 const find  = items.find(item => (item.stringValue).split('.')[1] === public_id)
                 if(find == undefined)
-                rej()
+                return rej()
                 
                 if(find != undefined){
                      const {owner} = await get_item_info_by_id({
@@ -17,9 +17,9 @@ const get_item_id_by_public_id_check_owner = (data)=>{
                         })
 
                 if(owner != uid)
-                    rej()
+                  return  rej()
                 if(owner === uid)
-                    res({item_id:find.stringValue})
+                  return  res({item_id:find.stringValue})
                 }
                     
             

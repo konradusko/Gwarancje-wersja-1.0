@@ -25,10 +25,10 @@ const add_item_to_db = (data)=>{
             warranty_start_date,
             warranty_end_date
         })
-        .then(()=>{res()})//dodany
+        .then(()=>{
+            return res()})//dodany
         .catch((er)=>{
-            console.log('e?')
-            rej(er)//nie udało sie dodać
+           return rej(er)//nie udało sie dodać
         })
     })
 }

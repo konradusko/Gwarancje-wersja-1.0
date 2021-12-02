@@ -15,9 +15,9 @@ const add_new_file_to_event_item = async(data)=>{
         ref.update({
             files:new_files_to_add
         })
-        res()
+       return res()
     } catch (error) {
-        rej()
+       return rej()
     }
 
 }
