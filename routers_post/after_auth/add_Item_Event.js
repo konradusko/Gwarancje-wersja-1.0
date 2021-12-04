@@ -9,30 +9,30 @@ import {check_format_and_add_file} from '../../modules/after_auth/add_files_to_d
 import {remove_file} from '../../modules/global/remove_file_in_storage.js'
 addItemEvent.post('/addItemEvent',async(req,res)=>{
     //ZROBIC VALIDACJE NAZWY !
-
+    //DODAC DATE DODANIA ALE TO Z FRONTU MA ISC ALBO Z BACKENDU
 
     
     const max_files_in_event = res.locals.max_item
     const max_size_files_in_event = res.locals.max_size_file
     //sprawdzic ten konkretny przedmiot
-    if(!('date' in req.body))
-        return res.json({message:'Wydarzenie musi zawierać date!'})
-    if(!('description' in req.body))
-        return res.json({message:'Wydarzenie musi zawierać opis sytuacji!'})
+    // if(!('date' in req.body))
+    //     return res.json({message:'Wydarzenie musi zawierać date!'})
+    // if(!('description' in req.body))
+    //     return res.json({message:'Wydarzenie musi zawierać opis sytuacji!'})
     if('date' in req.body && "description" in req.body){
-        const date_event = req.body.date
-        const description_event = req.body.description
-        //validacja daty
-        if(!(typeof date_event === 'string'))
-            return res.json({message:'Data musi być stringiem w formacie yyyy/mm/dd'})
-        if(typeof date_event === 'string' && Date.parse(date_event) === NaN) // mzienic bo nie moze byc rowne NAN XDD
-            return res.json({message:'Data ma zły format.'})
+        // const date_event = req.body.date
+        // const description_event = req.body.description
+        // //validacja daty
+        // if(!(typeof date_event === 'string'))
+        //     return res.json({message:'Data musi być stringiem w formacie yyyy/mm/dd'})
+        // if(typeof date_event === 'string' && Date.parse(date_event) === NaN) // mzienic bo nie moze byc rowne NAN XDD
+        //     return res.json({message:'Data ma zły format.'})
 
-        //validacja opisu
-        if(!(typeof description_event === 'string'))
-            return res.json({message:'Opis musi mieć format tekstu'})
-        if(typeof description_event === 'string' && description_event.length === 0)
-            return res.json({message:'Opis nie może być pusty!'})
+        // //validacja opisu
+        // if(!(typeof description_event === 'string'))
+        //     return res.json({message:'Opis musi mieć format tekstu'})
+        // if(typeof description_event === 'string' && description_event.length === 0)
+        //     return res.json({message:'Opis nie może być pusty!'})
 
         //ilość plików
         try {
@@ -44,7 +44,7 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
             const item_Mother = res.locals.item_id
             const uid = res.locals.user.uid
             const path = `Items/${item_Mother}/`
-            const date = req.body.date
+            const date = req.body.date_of_event
             const description = req.body.description
             const name = req.body.name
     
