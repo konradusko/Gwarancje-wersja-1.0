@@ -10,6 +10,10 @@ const middleware_config = (req,res,next)=>{
         purchase_amount_max_length:30,
         serial_number_max_length:50
     }
+    res.locals.add_event_validate = {
+        name_max_length:50,
+        description_max_length:300
+    }
     next()
 }
 export{middleware_config}

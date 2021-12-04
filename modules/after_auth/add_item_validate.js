@@ -1,10 +1,36 @@
 
 
-const add_item_validate = (body)=>{
+const add_item_validate = (body,validate_info)=>{
     return new Promise((res,rej)=>{
 
         //validacja zdjec odbywa sie w innych funkcjach
         //ZROBIC VALIDACJE TYPÓW DANYCH!
+//['serial_number','seller_name','seller_adress','seller_email','phone_number_seller','phone_number_seller','item_name',
+//'brand','model','purchase_amount','warranty_start_date','warranty_end_date',]
+        // validacja typów konczenia gwarancji
+        if(!('warranty_time' in body) && !('warranty_end_date' in body))
+            return rej('Podaj date zakończenia lub ilość lat gwarancji.')
+        if('warranty_time' in body && 'warranty_end_date' in body)
+            return rej('Nie możesz podawać ilości lat i daty zakończenia jednocześnie')
+        
+        if('warranty_time' in body && !('warranty_end_date' in body) &&  !(typeof body.warranty_time === 'string'))//jest time ale nie ma konczącej sie daty
+            return rej('Czas musi byc typem string')
+        if('warranty_time' in body && !('warranty_end_date' in body)  && !(body.warranty_time.includes('/')))
+            return rej('Czas musi miec format Y/MM')
+        if('warranty_time' in body && !('warranty_end_date' in body) && body.warranty_time.split('/')[0] == '' && body.warranty_time.split('/')[1] == '')
+            return rej('Musisz podac czas')
+        if('warranty_time' in body && !('warranty_end_date' in body) && isNaN(body.warranty_time.split('/')[0]) || 'warranty_time' in body && !('warranty_end_date' in body) && isNaN(body.warranty_time.split('/')[1]))
+            return rej('Wartośc czasu musi być liczbą')
+        if('warranty_time' in body && !('warranty_end_date' in body) && !(parseInt(body.warranty_time.split('/')[1]) >=0 && parseInt(body.warranty_time.split('/')[1]) <=12 ))
+            return rej('Wartość miesiąca musi byc pomiedzy 0-12')
+
+        
+         if('warranty_end_date' in body &&  !('warranty_time' in body)&&   !(typeof body.warranty_end_date === 'string'))//to ma miec format yyyy/mm/dd
+            return rej('Data musi być formatem string.')
+        if('warranty_end_date' in body && !('warranty_time' in body) &&body.warranty_end_date.length != 10 )
+            return rej('Data musi miec format yyyy/mm/dd.')
+        if('warranty_end_date' in body &&  isNaN(Date.parse(body.warranty_end_date)))//zrobic lepsza walidacje czasu //sprawdzic czy zawiera \\ i czy kazda wartosc jest liczba no i przedzialy czasu
+            return rej('Podana wartość nie jest data.')
 
 
         //Nazwa przedmiotu
@@ -50,13 +76,9 @@ const add_item_validate = (body)=>{
         if('serial_number' in body && body.serial_number.length > serial_number_max_length)
         return rej(`Numer seryjny nie może być większy niż ${serial_number_max_length} znaków`)
         
-        //data rozpoczecia gwarancji
-        if(!('warranty_start_date' in body))
-        return rej('Data rozpoczęcia gwarancji jest obowiązkowa')
+
 
         //data zakonczenia gwarancji
-        if(!('warranty_end_date'in body))
-        return rej('Data zakończenia gwarancji jest obowiązkowa')
 
 
         //Nazwa sprzedawcy
