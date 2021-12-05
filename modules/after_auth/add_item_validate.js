@@ -1,12 +1,11 @@
-
-
+import {isValidDate} from '../global/validate_date.js'
 const add_item_validate = (body,validate_info)=>{
     return new Promise((res,rej)=>{
 
         //validacja zdjec odbywa sie w innych funkcjach
         //ZROBIC VALIDACJE TYPÓW DANYCH!
-//['serial_number','seller_name','seller_adress','seller_email','phone_number_seller','phone_number_seller','item_name',
-//'brand','model','purchase_amount','warranty_start_date','warranty_end_date',]
+        //['serial_number','seller_name','seller_adress','seller_email','phone_number_seller','phone_number_seller','item_name',
+        //'brand','model','purchase_amount','warranty_start_date','warranty_end_date',]
         // validacja typów konczenia gwarancji
         if(!('warranty_time' in body) && !('warranty_end_date' in body))
             return rej('Podaj date zakończenia lub ilość lat gwarancji.')
@@ -27,10 +26,12 @@ const add_item_validate = (body,validate_info)=>{
         
          if('warranty_end_date' in body &&  !('warranty_time' in body)&&   !(typeof body.warranty_end_date === 'string'))//to ma miec format yyyy/mm/dd
             return rej('Data musi być formatem string.')
-        if('warranty_end_date' in body && !('warranty_time' in body) &&body.warranty_end_date.length != 10 )
-            return rej('Data musi miec format yyyy/mm/dd.')
-        if('warranty_end_date' in body &&  isNaN(Date.parse(body.warranty_end_date)))//zrobic lepsza walidacje czasu //sprawdzic czy zawiera \\ i czy kazda wartosc jest liczba no i przedzialy czasu
-            return rej('Podana wartość nie jest data.')
+        if('warranty_end_date' in body && !('warranty_time' in body) &&body.warranty_end_date.length != 10 && !(isValidDate(body.warranty_end_date)))
+            return rej('Data musi miec format yyyy-mm-dd.')
+
+        //dokonczyc walidacje
+
+
 
 
         //Nazwa przedmiotu

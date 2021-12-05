@@ -1,3 +1,4 @@
+import {isValidDate} from '../global/validate_date.js'
 const validate_update_item = (data)=>{
     return new Promise((res,rej)=>{
      const {body,validate_info} = data;
@@ -5,10 +6,9 @@ const validate_update_item = (data)=>{
          //koniec gwarancji
         if('warranty_end_date' in body && !(typeof body.warranty_end_date === 'string'))//to ma miec format yyyy/mm/dd
             return rej('Data musi być formatem string.')
-        if('warranty_end_date' in body &&body.warranty_end_date.length != 10 )
-            return rej('Data musi miec format yyyy/mm/dd.')
-        if('warranty_end_date' in body &&  isNaN(Date.parse(body.warranty_end_date)))
-            return rej('Podana wartość nie jest data.')
+        if('warranty_end_date' in body &&body.warranty_end_date.length != 10 && !(isValidDate(body.warranty_end_date)))
+            return rej('Data musi miec format yyyy-mm-dd.')
+
 
             //komentarz
         if('comment' in body && !(typeof body.comment === 'string'))
