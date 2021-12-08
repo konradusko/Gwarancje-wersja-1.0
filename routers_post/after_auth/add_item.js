@@ -70,11 +70,12 @@ add_item.post('/addItem',async(req,res)=>{
                                     value:req.body.warranty_time,
                                     type:'end_date'
                                 }
+                                const events = []
                                 //dodac do bazy danych
                                  await add_item_to_db({
                                     item_to_add:{
                                         public_id:public_id,
-                                        images:photos_paths,
+                                        files:photos_paths,
                                         owner:uid,
                                         avatar:avatar_object,
                                         serial_number,
@@ -88,7 +89,8 @@ add_item.post('/addItem',async(req,res)=>{
                                         purchase_amount,
                                         warranty_start_date,
                                         warranty_end_date,
-                                        comment
+                                        comment,
+                                        events
                                     }, 
                                     private_id:private_id
                                  }

@@ -65,12 +65,12 @@ import {add_files_event} from './routers_post/after_auth/add_files_event.js'
 import {update_Item} from './routers_post/after_auth/update_item.js'
 import {update_Event} from './routers_post/after_auth/update_event.js'
 app.post('/registerUser',middleware_config,before_auth_POST_register)
-// app.post('/getUserInfo',middleware_token_check,get_user_info)
+app.post('/getUserInfo',middleware_config,middleware_token_check,get_user_info)
 app.post('/addItem',middleware_token_check,middleware_config,add_item)
 app.post('/addItemEvent',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_config,addItemEvent)
-// app.post('/removeItem',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,remove_item)
-// app.post('/getAllItems',middleware_token_check,get_all_items)
-// app.post('/getItem',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,get_item)
+app.post('/removeItem',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,remove_item)
+app.post('/getAllItems',middleware_config,middleware_token_check,get_all_items)
+app.post('/getItem',middleware_config,middleware_token_check,get_item_id_using_public_and_check_owner_middleware,get_item)
 // app.post('/removeEvent',middleware_token_check,get_item_id_using_public_and_check_owner_middleware,middleware_get_event_owner_by_public_id,remvove_event)
 // app.post('/removeUserAvatar',middleware_token_check,remove_user_avatar)
 // app.post('/addNewAvatarUser',middleware_token_check,middleware_config,add_new_avatar_to_userPOSTREQ)

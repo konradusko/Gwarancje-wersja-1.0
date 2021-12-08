@@ -7,6 +7,8 @@ import {remove_item_from_db} from '../../modules/global/remove_item_from_db.js'
 import {add_item_to_event} from '../../modules/after_auth/add_event_to_item.js'
 import {check_format_and_add_file} from '../../modules/after_auth/add_files_to_db_pre_functions.js'
 import {remove_file} from '../../modules/global/remove_file_in_storage.js'
+import {add_item_event_validate} from '../../modules/global/add_item_event_validate.js'
+import {validate_body_keys_without_return} from '../../modules/global/validate_body_keys.js'
 addItemEvent.post('/addItemEvent',async(req,res)=>{
     //ZROBIC VALIDACJE NAZWY !
     //DODAC DATE DODANIA ALE TO Z FRONTU MA ISC ALBO Z BACKENDU
@@ -15,28 +17,16 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
     const max_files_in_event = res.locals.max_item
     const max_size_files_in_event = res.locals.max_size_file
     const files_validate_info = res.locals.files_info
-    //sprawdzic ten konkretny przedmiot
-    // if(!('date' in req.body))
-    //     return res.json({message:'Wydarzenie musi zawierać date!'})
-    // if(!('description' in req.body))
-    //     return res.json({message:'Wydarzenie musi zawierać opis sytuacji!'})
-    if('date' in req.body && "description" in req.body){
-        // const date_event = req.body.date
-        // const description_event = req.body.description
-        // //validacja daty
-        // if(!(typeof date_event === 'string'))
-        //     return res.json({message:'Data musi być stringiem w formacie yyyy/mm/dd'})
-        // if(typeof date_event === 'string' && Date.parse(date_event) === NaN) // mzienic bo nie moze byc rowne NAN XDD
-        //     return res.json({message:'Data ma zły format.'})
+    const event_validate_info = res.locals.add_event_validate
 
-        // //validacja opisu
-        // if(!(typeof description_event === 'string'))
-        //     return res.json({message:'Opis musi mieć format tekstu'})
-        // if(typeof description_event === 'string' && description_event.length === 0)
-        //     return res.json({message:'Opis nie może być pusty!'})
+
 
         //ilość plików
         try {
+            const require_to_validate =['token','public_id_item']
+            const allow_to_pass = ['date_of_event','name','description']
+            await validate_body_keys_without_return({body:req.body,require_to_validate,allow_to_pass})
+            await add_item_event_validate({body:req.body,validate_info:event_validate_info})
             //zwraca null jeśli nie było wgl plikow , a jak były to tablice z blobami
             const files = await add_item_check_files({body:req.body,max_files:max_files_in_event,max_size:max_size_files_in_event,allow_format:files_validate_info.allow_format})
             //dodawanie zdj do bazy danych
@@ -91,9 +81,8 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
            
             
         } catch (error) {
-            console.log('czy to ???')
             return res.json({message:error})
         }
-    }
+    
 })
 export{addItemEvent}
