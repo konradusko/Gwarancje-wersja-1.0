@@ -29,7 +29,7 @@ const add_item_validate = (body,validate_info)=>{
          if('warranty_end_date' in body && !('warranty_time' in body) &&body.warranty_end_date.length != 10)
             return rej('Data musi miec format yyyy-mm-dd')
         if('warranty_end_date' in body && !('warranty_time' in body) && !(isValidDate(body.warranty_end_date)))
-            return rej('Podana data jest błędna.')
+            return rej(`Podana data jest błędna. Data musi miec format yyyy-mm-dd.`)
 
 
             
@@ -70,7 +70,7 @@ const add_item_validate = (body,validate_info)=>{
         if('model' in body && !(typeof body.model === 'string'))
         return rej('Model musi być typem string.')
         if('model' in body && body.model.length < validate_info.model_min_length)
-        return rej(`Model powinien zawierać co najmniej ${validate_info.model_max_length} znaków.`)
+        return rej(`Model powinien zawierać co najmniej ${validate_info.model_min_length} znaków.`)
         if('model' in body && body.model.length >validate_info.model_max_length)
         return rej(`Model nie może zawierać wiecej niż ${validate_info.model_max_length} znaków!`)
 
@@ -121,6 +121,7 @@ const add_item_validate = (body,validate_info)=>{
             return rej('Komentarz musi być typem string.')
         if('comment' in body && body.comment.length > validate_info.comment_max_length)
             return rej(`Komentarz nie może być dłuższy niż ${validate_info.comment_max_length} znaków.`)
+
         return res()
     })
 }

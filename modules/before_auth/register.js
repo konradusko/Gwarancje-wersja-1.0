@@ -32,27 +32,27 @@ const register = (data)=>{
                 case 1:
                 case '1':
                     add_user({
-                        path:'url',
+                        path:data.public_avatar.one.path,
                         id:await makeId(10),
-                        type:'type',
+                        type:data.public_avatar.one.type,
                         public:true
                     },user.uid)
                     break;
                 case 2:
                 case '2':
                     add_user({
-                        path:'url',
+                        path:data.public_avatar.two.path,
                         id:await makeId(10),
-                        type:'type',
+                        type:data.public_avatar.two.type,
                         public:true
                     },user.uid)
                     break;
                  case 3:
                 case '3':
                     add_user({
-                        path:'url',
+                        path:data.public_avatar.three.path,
                         id:await makeId(10),
-                        type:'type',
+                        type:data.public_avatar.three.type,
                         public:true
                     },user.uid)
                     break;
@@ -69,9 +69,9 @@ const register = (data)=>{
                         },user.uid)
                     }catch(err){
                         add_user({
-                            path:'url',
+                            path:data.public_avatar.one.path,
                             id:await makeId(10),
-                            type:'type',
+                            type:data.public_avatar.one.type,
                             public:true
                         },user.uid)//nie udalo sie dodac obrazka wiec wybierzemy defaultowy i dalej utworzymy konto
                     }

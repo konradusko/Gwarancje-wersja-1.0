@@ -1,5 +1,6 @@
 import {fetch_photo} from '../global/promise_fetch_photo.js'
 const add_item_check_files = (data)=>{
+    console.log('XD')
     return new Promise(async(res,rej)=>{
         console.log('XD')
         const {body,max_files,max_size,allow_format} = data;

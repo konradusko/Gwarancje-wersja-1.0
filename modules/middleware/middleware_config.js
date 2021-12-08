@@ -18,6 +18,31 @@ const middleware_config = (req,res,next)=>{
         purchase_amount_min_length:1,
         serial_number_max_length:30
     }
+    res.locals.avatar_info = {
+        allow_format:['image/jpeg',"image/png","image/jpg"],
+        public_avatar:{
+            type:'png',
+            path:'./x/d/xd'
+        },
+        avatars_register:{
+            one:{
+                path:'',
+                type:''
+            },
+            two:{
+                path:'',
+                type:''
+            },
+            three:{
+                path:'',
+                type:''
+            }
+        }
+    }
+    
+    res.locals.files_info = {
+        allow_format:['image/jpeg',"image/png","image/jpg","application/pdf"]
+    }
     res.locals.add_event_validate = {
         name_max_length:50,
         description_max_length:300

@@ -2,12 +2,12 @@ import {makeId} from '../global/makeId.js'
 import {add_photo_to_storage} from '../global/add_photo_to_storage.js'
 const check_format_and_add_avatar = (data)=>{
     return new Promise(async(res,rej)=>{
-        const {obj,path} = data
+        const {obj,path,public_image} = data
         let  avatar_object
         if(obj === null){
             avatar_object ={
-                path:'scieżka do przykladowego',
-                type:'tyyyypp',
+                path:public_image.path,
+                type:public_image.type,
                 id: await makeId(10),
                 public:true
             }

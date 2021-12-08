@@ -48,7 +48,10 @@ const get_item_info_by_id = (data)=>{
                                     public_id:items_data._fieldsProto.public_id.stringValue,
                                     item_name:items_data._fieldsProto.item_name.stringValue,
                                     date_start:items_data._fieldsProto.warranty_start_date.stringValue,
-                                    date_end:items_data._fieldsProto.warranty_end_date.stringValue,
+                                    date_end:{
+                                       type:items_data._fieldsProto.warranty_end_date.mapValue.fields.type.stringValue,
+                                       value:items_data._fieldsProto.warranty_end_date.mapValue.fields.value.stringValue
+                                    },
                                     seller_email:items_data._fieldsProto.seller_email.stringValue,
                                     seller_adress:items_data._fieldsProto.seller_adress.stringValue,
                                     model:items_data._fieldsProto.model.stringValue,
