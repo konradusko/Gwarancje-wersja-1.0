@@ -7,8 +7,16 @@ const middleware_config = (req,res,next)=>{
         seller_adress_max_length:50,
         seller_email_max_length:50,
         phone_number_seller_max_length:50,
+        serial_number_max_length:50,
+        item_name_min_length:4,
+        item_name_max_length:30,
+        brand_max_length:30,
+        brand_min_length:1,
+        model_max_length:30,
+        model_min_length:1,
         purchase_amount_max_length:30,
-        serial_number_max_length:50
+        purchase_amount_min_length:1,
+        serial_number_max_length:30
     }
     res.locals.add_event_validate = {
         name_max_length:50,

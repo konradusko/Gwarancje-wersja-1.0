@@ -4,11 +4,12 @@ const validate_update_item = (data)=>{
      const {body,validate_info} = data;
 
          //koniec gwarancji
-        if('warranty_end_date' in body && !(typeof body.warranty_end_date === 'string'))//to ma miec format yyyy/mm/dd
-            return rej('Data musi być formatem string.')
-        if('warranty_end_date' in body &&body.warranty_end_date.length != 10 && !(isValidDate(body.warranty_end_date)))
-            return rej('Data musi miec format yyyy-mm-dd.')
-
+        if('warranty_end_date' in body &&  !(typeof body.warranty_end_date === 'string'))
+            return rej('Data rozpoczęcia gwarancji musi byc typem string.')
+        if('warranty_end_date' in body && body.warranty_end_date.length != 10)
+            return rej('Data rozpoczęcia musi miec format yyyy-mm-dd')
+        if('warranty_end_date' in body && !(isValidDate(body.warranty_end_date)))
+            return rej('Podana data jest błędna.')
 
             //komentarz
         if('comment' in body && !(typeof body.comment === 'string'))
@@ -39,12 +40,13 @@ const validate_update_item = (data)=>{
             return rej('Numer telefonu musi byc typem string.')
         if('phone_number_seller' in body &&  body.phone_number_seller.length > validate_info.phone_number_seller_max_length)
             return rej(`Numer telefonu nie może być dłuższy niż ${validate_info.phone_number_seller_max_length} znaków.`)
-
         //kwota zakupu
         if('purchase_amount' in body && !(typeof body.purchase_amount === 'string'))
             return rej('Kwota zakupu musi byc typem string.')
-        if('purchase_amount' in body &&  body.purchase_amount.length > validate_info.purchase_amount_max_length)
-            return rej(`Kwota zakupu nie może być dłuższa niż ${validate_info.purchase_amount_max_length} znaków.`)
+        if('purchase_amount' in body && body.purchase_amount.length < validate_info.purchase_amount_min_length)
+            return rej('Kwota zakupu nie może być pusta')
+        if('purchase_amount' in body && body.purchase_amount.length > validate_info.purchase_amount_max_length)
+            return rej(`Kwota zakupu nie może przekraczać ${validate_info.purchase_amount_max_length} znaków`)
        
         //numer seryjny
         if('serial_number' in body  && !(typeof body.serial_number === 'string'))
