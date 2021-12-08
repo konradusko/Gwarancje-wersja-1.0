@@ -81,24 +81,25 @@ export default async function main(){
 
 firebase.auth().currentUser.getIdToken()
 .then((token)=>{
-    fetch("/updateItem",{
-        method:"POST",
-        headers:{
-            Accept: "application/json",
-        "Content-Type": "application/json",
-        },
-        body:JSON.stringify({
-            token,
-            public_id_item:"i5nf0yblAKYCnI8DRjhh",
-            comment:'dsadasdsaewq'
+//     fetch("/updateItem",{
+//         method:"POST",
+//         headers:{
+//             Accept: "application/json",
+//         "Content-Type": "application/json",
+//         },
+//         body:JSON.stringify({
+//             token,
+//             public_id_item:"i5nf0yblAKYCnI8DRjhh",
+//             comment:'dsadasdsaewq'
             
 
-        })
-})
-.then(response => response.json()) // convert to json
-.then((json)=>{
-    console.log(json)
-})
+//         })
+// })
+// .then(response => response.json()) // convert to json
+// .then((json)=>{
+//     console.log(json)
+// })
+console.log(token)
 })
 .catch((er)=>{
     console.log(er)

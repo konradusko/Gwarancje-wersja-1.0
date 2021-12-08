@@ -14,6 +14,7 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
     
     const max_files_in_event = res.locals.max_item
     const max_size_files_in_event = res.locals.max_size_file
+    const files_validate_info = res.locals.files_info
     //sprawdzic ten konkretny przedmiot
     // if(!('date' in req.body))
     //     return res.json({message:'Wydarzenie musi zawierać date!'})
@@ -37,7 +38,7 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
         //ilość plików
         try {
             //zwraca null jeśli nie było wgl plikow , a jak były to tablice z blobami
-            const files = await add_item_check_files({body:req.body,max_files:max_files_in_event,max_size:max_size_files_in_event,allow_format:['image/jpeg',"image/png","image/jpg","application/pdf"]})
+            const files = await add_item_check_files({body:req.body,max_files:max_files_in_event,max_size:max_size_files_in_event,allow_format:files_validate_info.allow_format})
             //dodawanie zdj do bazy danych
             const public_id = await makeId(15)
             const private_id = `${await makeId(10)}.${public_id}.${await makeId(10)}`

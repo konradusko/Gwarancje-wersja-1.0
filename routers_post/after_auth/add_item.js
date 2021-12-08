@@ -18,6 +18,8 @@ add_item.post('/addItem',async(req,res)=>{
     const max_size = res.locals.max_size_file // bajty
     const max_files_in_event = res.locals.max_item
     const validate_info = res.locals.add_item_validate;
+    const avatar_info = res.locals.avatar_info
+    const files_validate_info = res.locals.files_info
     const {slots} = await get_user_info_from_db({uid:res.locals.user.uid,type:"slots"})
     console.log(slots)
         if(slots !=0 &&Math.sign(slots) != -1){
@@ -34,23 +36,18 @@ add_item.post('/addItem',async(req,res)=>{
                 try {
                     await validate_body_keys_without_return({body:req.body,require_to_validate,allow_to_pass})
                     await add_item_validate(req.body,validate_info)
+                    const public_id = await makeId(20)
+                    const private_id = `${await makeId(15)}.${public_id}.${await makeId(10)}`
                     const path = `Items/${private_id}/`
                     const uid = res.locals.user.uid
                     try {
-                        const check_images = await add_item_check_files({body:req.body,max_files:max_files_in_event,max_size:max_size,allow_format:['image/jpeg',"image/png","image/jpg","application/pdf"]})
-                        const avatar = await check_avatar_type({body:req.body,allow_format:['image/jpeg',"image/png","image/jpg"],max_size:max_size})
-                        
+                        const check_images = await add_item_check_files({body:req.body,max_files:max_files_in_event,max_size:max_size,allow_format:files_validate_info.allow_format})
+                        const avatar = await check_avatar_type({body:req.body,allow_format:avatar_info.allow_format,max_size:max_size})
                         //tutaj jeszcze validacje avatara zrobic
-                        const public_id = await makeId(20)
-                        const private_id = `${await makeId(15)}.${public_id}.${await makeId(10)}`
-    
-                 
-        
                         try {
                         //dodanie avatara
-                        const avatar_object = await check_format_and_add_avatar({obj:avatar,path:path})
+                        const avatar_object = await check_format_and_add_avatar({obj:avatar,path:path,public_image:avatar_info.public_avatar})
                         const  photos_paths = (check_images === null)? []:  await check_format_and_add_file({path:path,array_files:check_images})
-                           
                             // Stworzyc item
                             try {
                                 //sprawdzić nie wymagane przedmioty
@@ -110,7 +107,15 @@ add_item.post('/addItem',async(req,res)=>{
                                             return res.json({message:"Przedmiot został dodany"})
                                        
                                     }else{
+                                        try {await remove_file(path)} catch (error) {}
+                                        try {
+                                            await remove_item_from_db({
+                                                collection:'Items',
+                                                doc:private_id
+                                            })
+                                        } catch (error) {}
                                         return res.json({message:"Brak wolnych slotów, dokup je"})  
+
                                     }
                                 } catch (error) {
                                     //usuwam pliki oraz usuwam przedmiot ktory został dodany
@@ -136,11 +141,14 @@ add_item.post('/addItem',async(req,res)=>{
                             return res.json({message:"Dodawanie przedmiotu nie powiodło się"})            
                         }
                     } catch (error) {
+                        console.log(error)
+                        console.log('errr')
                         //validacja plikow
                         try {await remove_file(path)} catch (error) {}
                         return res.json({message:error})
                     }
                 } catch (error) {
+                    console.log('xddd')
                     return res.json({message:error})
                 }
               

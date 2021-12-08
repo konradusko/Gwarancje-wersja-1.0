@@ -5,13 +5,15 @@ import {fetch_photo} from "../../modules/global/promise_fetch_photo.js"
 // const {register} = require('../../modules/before_auth/register')
 before_auth_POST_register.post('/registerUser',async(req,res)=>{ 
     const name_minimum_length = 4,name_max_length = 25,password_minimum_length = 6,password_max_length = 25
+    const validate_avatar = res.locals.avatar_info
     const reg = async (photo)=>{
         try {
             await register({
                 name:req.body.name,
                 email:req.body.email,
                 password:req.body.password,
-                avatar:photo
+                avatar:photo,
+                public_avatar:validate_avatar.avatars_register
             })
             return res.json({message:"Konto zostało utworzone ! Możesz się zalogować"})
         } catch (error) {
