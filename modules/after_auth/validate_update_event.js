@@ -1,15 +1,15 @@
+import {isValidDate} from '../global/validate_date.js'
 const validate_update_event = (data) =>{
     return new Promise((res,rej)=>{
         const {body,validate_info} = data;
 
         //'date_of_event','name','description'
-        //data dodania
-        if('date_of_event' in body && !(typeof body.date_of_event === 'string'))//to ma miec format yyyy/mm/dd
-            return rej('Data musi być formatem string.')
-        if('date_of_event' in body &&body.date_of_event.length != 10 )
-            return rej('Data musi miec format yyyy/mm/dd.')
-        if('date_of_event' in body &&  isNaN(Date.parse(body.date_of_event)))
-            return rej('Podana wartość nie jest data.')
+        if('date_of_event' in body && !(typeof body.date_of_event === 'string'))
+        return rej('Data musi być typem string.')
+        if('date_of_event' in body && body.date_of_event.length != 10)
+            return rej('Data musi miec format yyyy-mm-dd')
+        if('date_of_event' in body && !(isValidDate(body.date_of_event)))
+            return rej(`Podana data jest błędna. Data musi miec format yyyy-mm-dd.`)
 
         //nazwa
         if('name' in body && !(typeof body.name === 'string'))

@@ -1,6 +1,8 @@
 const middleware_config = (req,res,next)=>{
     res.locals.max_item = 2
     res.locals.max_size_file = 2100000
+    res.locals.minutes_for_avatar_token =20
+    res.locals.minutes_for_files_token = 40
     res.locals.add_item_validate ={
         comment_max_length:1000,
         seller_adress_max_length:30,
@@ -45,6 +47,7 @@ const middleware_config = (req,res,next)=>{
     }
     res.locals.add_event_validate = {
         name_max_length:50,
+        name_min_length:4,
         description_max_length:300
     }
     next()

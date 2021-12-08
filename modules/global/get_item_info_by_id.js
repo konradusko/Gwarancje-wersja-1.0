@@ -27,13 +27,16 @@ const get_item_info_by_id = (data)=>{
                             },
                             item_name:items_data._fieldsProto.item_name.stringValue,
                             date_start:items_data._fieldsProto.warranty_start_date.stringValue,
-                            date_end:items_data._fieldsProto.warranty_end_date.stringValue,
+                            date_end:{
+                                type:items_data._fieldsProto.warranty_end_date.mapValue.fields.type.stringValue,
+                                value:items_data._fieldsProto.warranty_end_date.mapValue.fields.value.stringValue
+                             },
                             public_id:items_data._fieldsProto.public_id.stringValue
                         }
                         )
                     break;
                     case 'whole_item':
-                        console.log(items_data)
+                        console.log(items_data._fieldsProto.warranty_end_date.mapValue.fields.value.stringValue)
                         res(
                             {
                                 avatar:{
@@ -97,6 +100,7 @@ const get_item_info_by_id = (data)=>{
                 }
             }
         } catch (error) {
+            console.log(error)
             rej()
         }
     })
