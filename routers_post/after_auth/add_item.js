@@ -68,7 +68,7 @@ add_item.post('/addItem',async(req,res)=>{
                                     type:'end_date'
                                 }:{
                                     value:req.body.warranty_time,
-                                    type:'end_date'
+                                    type:'time'
                                 }
                                 const events = []
                                 //dodac do bazy danych

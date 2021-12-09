@@ -9,7 +9,7 @@ update_Item.post('/updateItem',async(req,res)=>{
     //sprawdzam
     //najpierw czy jest któraś z wymaganych inaczej wypierdalam error
     const require_to_validate = ['public_id_item','token']
-    const allow_to_pass = ['warranty_end_date','comment','seller_name','seller_adress','seller_email','phone_number_seller','purchase_amount','serial_number']
+    const allow_to_pass = ['warranty_end_date','comment','seller_name','seller_adress','seller_email','phone_number_seller','purchase_amount','serial_number','warranty_time']
     try {
         const filter_array = await validate_body_keys({body:req.body,require_to_validate:require_to_validate,allow_to_pass:allow_to_pass})
         try {
@@ -17,7 +17,17 @@ update_Item.post('/updateItem',async(req,res)=>{
             //wszystko git z walidacja wiec udostepniamy
             let to_update = {}
             filter_array.forEach(element =>{
-                to_update[element] = req.body[element]
+                if(element == 'warranty_end_date' || element == 'warranty_time'){
+                    to_update.warranty_end_date = 'warranty_end_date' in req.body? {
+                        value:req.body.warranty_end_date,
+                        type:'end_date'
+                    }:{
+                        value:req.body.warranty_time,
+                        type:'time'
+                    }
+                }else{
+                    to_update[element] = req.body[element]
+                }
             })
             try {
                 //aktualizujemy

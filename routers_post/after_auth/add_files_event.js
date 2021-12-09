@@ -3,6 +3,7 @@ import {add_item_check_files} from '../../modules/after_auth/add_item_check_file
 import {get_item_info_by_id} from '../../modules/global/get_item_info_by_id.js'
 import {check_format_and_add_file} from '../../modules/after_auth/add_files_to_db_pre_functions.js'
 import {add_new_file_to_event_item} from '../../modules/global/add_new_file_to_event_item.js'
+import {validate_body_keys_without_return} from '../../modules/global/validate_body_keys.js'
 const add_files_event = express.Router()
 add_files_event.post('/addFileEvent',async (req,res)=>{
     const event_id = res.locals.event_id
@@ -11,6 +12,9 @@ add_files_event.post('/addFileEvent',async (req,res)=>{
 
     const path = `Events/${event_id}/`
     try {
+        const require_to_validate = ['public_id_item','token','event_public_id']
+        const allow_to_pass = ['files']
+        await validate_body_keys_without_return({body:req.body,require_to_validate,allow_to_pass})
         const {files} = await get_item_info_by_id({id:event_id,action:"item_files",collection_name:'Events'})
         if(files.length == max_files_in_item || files.length >max_files_in_item)
         return res.json({message:'Brak wolnych miejsc na zdjęcia'})

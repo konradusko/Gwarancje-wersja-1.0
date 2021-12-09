@@ -1,8 +1,8 @@
 import express from "express"
 const before_auth_POST_register = express.Router()
 import {register} from "../../modules/before_auth/register.js"
+import { isHtml } from "../../modules/global/is_html_in_text.js"
 import {fetch_photo} from "../../modules/global/promise_fetch_photo.js"
-// const {register} = require('../../modules/before_auth/register')
 before_auth_POST_register.post('/registerUser',async(req,res)=>{ 
     const name_minimum_length = 4,name_max_length = 25,password_minimum_length = 6,password_max_length = 25
     const validate_avatar = res.locals.avatar_info
@@ -30,6 +30,9 @@ before_auth_POST_register.post('/registerUser',async(req,res)=>{
     if(!(typeof req.body.email ==='string'))
     return res.json({message:'Email musi być typem string.'})
     
+    if(isHtml(req.body.name))
+        return res.json({message:'Nazwa zawiera niedozwolone znaki.'})
+    
     if(req.body.name.length <name_minimum_length && req.body.name.length <=name_max_length)
        return res.json({message:"Nazwa użytkownika powinna zawierać od 4 do 25 znaków !"})
 
@@ -37,6 +40,8 @@ before_auth_POST_register.post('/registerUser',async(req,res)=>{
        return res.json({message:"Hasło powinno zawierać co najmniej 6 znaków !"})
     if(req.body.password.length > password_max_length)
         return res.json({message:'Haslo nie może być dłuższe niz 25 znaków.'})
+
+
     const reg_exp_mail_validate =  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     const validate_email = reg_exp_mail_validate.test(String(req.body.email).toLowerCase()) == true? true:false
     if(!validate_email)
@@ -44,6 +49,10 @@ before_auth_POST_register.post('/registerUser',async(req,res)=>{
     if(req.body.avatar == 1 || req.body.avatar == 2|| req.body.avatar == 3 || req.body.avatar == '1' || req.body.avatar == '2'|| req.body.avatar == '3'){
         reg(req.body.avatar)
     }else{
+        if(!(typeof req.body.avatar === 'string'))
+            return res.json('Avatar ma zły format')
+        if(isHtml(req.body.avatar))
+            return res.json('Avatar zawiera niedozwolone znaki.')
         try {
             const photo = await fetch_photo(req.body.avatar)
             const max_size =res.locals.max_size_file // bajty

@@ -2,11 +2,13 @@ import express from "express"
 const add_new_avatar_to_itemPOSTREQ = express.Router()
 import {check_avatar_type} from '../../modules/after_auth/check_avatar.js'
 import {get_item_info_by_id} from '../../modules/global/get_item_info_by_id.js'
+import { isHtml } from "../../modules/global/is_html_in_text.js"
+import {validate_body_keys_without_return} from '../../modules/global/validate_body_keys.js'
 add_new_avatar_to_itemPOSTREQ.post('/addNewAvatarItem',async(req,res)=>{
     const uid = res.locals.user.uid;
     const item_id = res.locals.item_id;
     const max_size = res.locals.max_size_file // bajty
-
+    const avatar_info_validate = res.locals.avatar_info
     const add_avatar = async(blob)=>{
         try {
             const path = `Items/${item_id}/`
@@ -25,10 +27,16 @@ add_new_avatar_to_itemPOSTREQ.post('/addNewAvatarItem',async(req,res)=>{
 
     try {
         //sprawdzam czy jest avatar_i czy ew ma odpowiedni format i rozmiar zwraca blob type
-        const is_avatar =  await check_avatar_type({body:req.body,allow_format:['image/jpeg',"image/png","image/jpg"],max_size:max_size})
+        const require_to_validate = ['public_id_item','token']
+        const allow_to_pass = ['avatar','avatar_id']
+        await validate_body_keys_without_return({body:req.body,require_to_validate,allow_to_pass})
+        const is_avatar =  await check_avatar_type({body:req.body,allow_format:avatar_info_validate.allow_format,max_size:max_size})
         if(is_avatar === null)
         return res.json({message:'Brakuje avataru.'})
-        if('avatar_id' in req.body){
+
+        if('avatar_id' in req.body && typeof req.body.avatar_id === 'string' && isHtml(req.body.avatar_id))
+            return res.json({message:'Id zawiera niedozwolone znaki.'})
+        if('avatar_id' in req.body && typeof req.body.avatar_id === 'string'){
             try {
                 const {avatar} = await get_item_info_by_id({id:item_id,action:"avatar",collection_name:'Items'})
                 if(avatar.avatar_id != req.body.avatar_id)
@@ -41,9 +49,9 @@ add_new_avatar_to_itemPOSTREQ.post('/addNewAvatarItem',async(req,res)=>{
                 if(avatar.avatar_public != true){
                     //japierw dodam jako publiczne
                     const public_avatar = { // publiczny avatar
-                        path:'url',
+                        path:avatar_info_validate.public_avatar.path,
                         id:await makeId(10),
-                        type:'type',
+                        type:avatar_info_validate.public_avatar.type,
                         public:true
                     }
                     //najpierw trzeba usunac stary
@@ -58,10 +66,10 @@ add_new_avatar_to_itemPOSTREQ.post('/addNewAvatarItem',async(req,res)=>{
             } catch (error) {
                 return res.json({message:"Coś poszło nie tak."})
             }
+        }else{
+            return res.json({message:"Brakuje id avataru."})
         }
     
-        if(!('avatar_id' in req.body))
-        return res.json({message:"Brakuje id avataru."})
     } catch (error) {
         return res.json({message:error})
     }
