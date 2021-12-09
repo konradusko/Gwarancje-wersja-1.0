@@ -1,8 +1,8 @@
+import { isHtml } from '../global/is_html_in_text.js';
 import {fetch_photo} from '../global/promise_fetch_photo.js'
+
 const add_item_check_files = (data)=>{
-    console.log('XD')
     return new Promise(async(res,rej)=>{
-        console.log('XD')
         const {body,max_files,max_size,allow_format} = data;
         let response_array = [],tmp=undefined
         if('files'in body && Array.isArray(body.files)&& body.files.length ===0)
@@ -18,6 +18,10 @@ const add_item_check_files = (data)=>{
         if('files'in body && Array.isArray(body.files) && body.files.length <=max_files){
             let temporary;
             for(let _=0;_<body.files.length;_++){
+                if(!(typeof body.files[_] === 'string'))
+                    return rej('Niektóre pliki nie maja formatu string')
+                if(isHtml(body.files[_]))
+                return rej('Niektóre pliki zawierają nieodpowiedni format.')
                 try {
                     temporary = await fetch_photo(body.files[_])
                     tmp = allow_format.find(e=> e === temporary.type)

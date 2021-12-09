@@ -1,4 +1,5 @@
 import {isValidDate} from '../global/validate_date.js'
+import {isHtml} from '../global/is_html_in_text.js'
 const add_item_validate = (body,validate_info)=>{
     return new Promise((res,rej)=>{
 
@@ -22,7 +23,8 @@ const add_item_validate = (body,validate_info)=>{
             return rej('Wartośc czasu musi być liczbą')
         if('warranty_time' in body && !('warranty_end_date' in body) && !(parseInt(body.warranty_time.split('/')[1]) >=0 && parseInt(body.warranty_time.split('/')[1]) <=12 ))
             return rej('Wartość miesiąca musi byc pomiedzy 0-12')
-
+        if('warranty_time' in body && !('warranty_end_date' in body) && isHtml(body.warranty_time))
+            return rej('Wartość zawiera niedozwolone znaki.')
         
          if('warranty_end_date' in body &&  !('warranty_time' in body)&&   !(typeof body.warranty_end_date === 'string'))//to ma miec format yyyy/mm/dd
             return rej('Data musi być formatem string.')
@@ -30,7 +32,8 @@ const add_item_validate = (body,validate_info)=>{
             return rej('Data musi miec format yyyy-mm-dd')
         if('warranty_end_date' in body && !('warranty_time' in body) && !(isValidDate(body.warranty_end_date)))
             return rej(`Podana data jest błędna. Data musi miec format yyyy-mm-dd.`)
-
+        if('warranty_end_date' in body && !('warranty_time' in body) && isHtml(body.warranty_end_date))
+            return rej('Data zawiera niedozwolone znaki.')
 
             
         //rozpoczecie gwarancji
@@ -42,7 +45,8 @@ const add_item_validate = (body,validate_info)=>{
             return rej('Data rozpoczęcia musi miec format yyyy-mm-dd')
         if('warranty_start_date' in body && !(isValidDate(body.warranty_start_date)))
             return rej('Podana data jest błędna.')
-
+        if('warranty_start_date' in body && isHtml(body.warranty_start_date))
+            return rej('Data rozpoczęcia gwarancji zawiera niedozwolone znaki.')
 
         //Nazwa przedmiotu
         if(!('item_name'in body))
@@ -53,7 +57,8 @@ const add_item_validate = (body,validate_info)=>{
         return rej(`Nazwa przedmiotu powinna zawierać co najmniej ${validate_info.item_name_min_length} znaków.`)
         if('item_name' in body && body.item_name.length >validate_info.item_name_max_length)
         return rej(`Nazwa przedmiotu nie może zawierać wiecej niż ${validate_info.item_name_max_length} znaków!`)
-
+        if('item_name' in body && isHtml(body.item_name))
+        return rej('Nazwa zawiera niedozwolone znaki.')
         //Marka
         if(!('brand' in body))
         return rej("Marka jest obowiązkowa")
@@ -63,7 +68,8 @@ const add_item_validate = (body,validate_info)=>{
         return rej(`Marka powinna zawierać co najmniej ${validate_info.brand_min_length} znaków.`)
         if('brand' in body && body.brand.length > validate_info.brand_max_length)
         return rej(`Marka nie może zawierać wiecej niż ${validate_info.brand_max_length} znaków!`)
-
+        if('brand' in body && isHtml(body.brand))
+        return rej('Marka zawiera niedozwolone znaki.')
         //Model
         if(!('model' in body))
         return rej("Model jest obowiązkowy")
@@ -73,7 +79,8 @@ const add_item_validate = (body,validate_info)=>{
         return rej(`Model powinien zawierać co najmniej ${validate_info.model_min_length} znaków.`)
         if('model' in body && body.model.length >validate_info.model_max_length)
         return rej(`Model nie może zawierać wiecej niż ${validate_info.model_max_length} znaków!`)
-
+        if('model' in body && isHtml(body.model))
+        return rej('Model zawiera niedozwolone znaki.')
         //Kwota zakupu
         if(!('purchase_amount' in body))
         return rej('Kwota zakupu jest obowiązkowa')
@@ -83,13 +90,15 @@ const add_item_validate = (body,validate_info)=>{
         return rej('Kwota zakupu nie może być pusta')
         if('purchase_amount' in body && body.purchase_amount.length > validate_info.purchase_amount_max_length)
         return rej(`Kwota zakupu nie może przekraczać ${validate_info.purchase_amount_max_length} znaków`)
-
+        if('purchase_amount' in body && isHtml(body.purchase_amount))
+        return rej('Kwota zakupu zawiera niedozwolone znaki.')
         //numer seryjny
         if('serial_number' in body &&  !(typeof body.serial_number === 'string'))
         return rej('Numer seryjny musi byc typem string.')
         if('serial_number' in body && body.serial_number.length > serial_number_max_length)
         return rej(`Numer seryjny nie może być większy niż ${serial_number_max_length} znaków`)
-        
+        if('serial_number' in body && isHtml(body.serial_number))
+        return rej('Numer seryjny zawiera niedozwolone znaki.')
 
 
         //nazwa sprzedawcy
@@ -97,31 +106,40 @@ const add_item_validate = (body,validate_info)=>{
             return rej('Nazwa sprzedawcy musi być typem string.')
         if('seller_name' in body && body.seller_name.length > validate_info.seller_adress_max_length)
             return rej(`Nazwa sprzedawcy nie może być dłuższa niż ${validate_info.seller_adress_max_length} znaków.`)
+        if('seller_name' in body && isHtml(body.seller_name))
+            return rej('Nazwa sprzedawcy zawiera niedozwolone znaki.')
 
         //adres sprzedawcy
         if('seller_adress' in body && !(typeof body.seller_adress === 'string'))
             return rej('Adres sprzedawcy musi byc typem string.')
         if('seller_adress' in body &&  body.seller_adress.length > validate_info.seller_adress_max_length)
             return rej(`Adres sprzedawcy nie może byc dłuższy niż ${validate_info.seller_adress_max_length} znaków.`)
+        if('seller_adress' in body && isHtml(body.seller_adress))
+            return rej('Adres sprzedawcy zawiera niedozwolone znaki.')
 
        //email sprzedawcy
         if('seller_email' in body && !(typeof body.seller_email === 'string'))
              return rej('Email sprzedawcy musi byc typem string.')
         if('seller_email' in body &&  body.seller_email.length > validate_info.seller_email_max_length)
             return rej(`Email sprzedawcy nie może być dłuższy niż ${validate_info.seller_email_max_length} znaków.`)
+        if('seller_email' in body && isHtml(body.seller_email))
+            return rej('Email sprzedawcy zawiera niedozwolone znaki.')
 
        //numer telefonu sprzedawcy
        if('phone_number_seller' in body && !(typeof body.phone_number_seller === 'string'))
        return rej('Numer telefonu musi byc typem string.')
         if('phone_number_seller' in body &&  body.phone_number_seller.length > validate_info.phone_number_seller_max_length)
        return rej(`Numer telefonu nie może być dłuższy niż ${validate_info.phone_number_seller_max_length} znaków.`)
-
+        if('phone_number_seller' in body && isHtml(body.phone_number_seller))
+        return rej('Numer telefonu zawiera niedozwolone znaki.')
             //komentarz
         if('comment' in body && !(typeof body.comment === 'string'))
             return rej('Komentarz musi być typem string.')
         if('comment' in body && body.comment.length > validate_info.comment_max_length)
             return rej(`Komentarz nie może być dłuższy niż ${validate_info.comment_max_length} znaków.`)
-
+        if('comment' in body && isHtml(body.comment))
+            return rej('Komentarz zawiera niedozwolone znaki.')
+            
         return res()
     })
 }

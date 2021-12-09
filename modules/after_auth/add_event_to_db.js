@@ -24,12 +24,9 @@ const add_event_to_db = (data)=>{
         name:name
         })
         .then(()=>{
-            console.log('dodany')
             return res()
         })//dodany
         .catch((er)=>{
-            console.log('o huj tu chodzi ')
-            console.log(er)
            return rej(er)//nie udało sie dodać
         })
     })

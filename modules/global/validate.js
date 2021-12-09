@@ -7,9 +7,11 @@ const isUserAuthorization = (req, res, page,need_validation,java_script) =>{
     page - strona ktora bedziemy ladowac
     javascirpt - skrypty ktore musimy zaimportowac
     */
+   if(!('token' in req.body))
+    return res.json({message:'Token jest wymagany'})
 const token = req.body.token
+
 if(token == null && need_validation == false){
-    console.log('case1')
 //nie mamy tokena i go nie potrzebujemy wiec jest git
 fs.readFile('views'+page, "utf-8", (err, temp) => {
     //wysylam templatke i usera
@@ -20,7 +22,6 @@ fs.readFile('views'+page, "utf-8", (err, temp) => {
 })
 
 }else if(token == null && need_validation == true){
-    console.log('case2')
     //potrzebujemy tokena a go nie mamy to przekierować do strony logowania
     res.json({
         error:true,
@@ -28,14 +29,12 @@ fs.readFile('views'+page, "utf-8", (err, temp) => {
     })
 
 }else if(token != null && need_validation == false){
-    console.log('case3')
     //mamy token a go nie potrzebujemy to przekierować na strone /home
     res.json({
         error:true,
         redirect:'/home'
     })
 }else if(token != null && need_validation == true){
-    console.log('case 4')
     //dobra jest token teraz trzeba go sprawdzic sobie
     auth().verifyIdToken(token)
         .then((decodedToken)=>{
@@ -56,6 +55,8 @@ fs.readFile('views'+page, "utf-8", (err, temp) => {
                 redirect:'/login'
             })
         })
+}else{
+    return res.json({message:'Coś jest nie tak z tokenem.'})
 }
 
 

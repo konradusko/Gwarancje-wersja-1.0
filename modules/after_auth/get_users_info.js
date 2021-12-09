@@ -4,7 +4,6 @@ const get_user_info_from_db = (data)=>{
     //data zawiera w sobie uid oraz do switcha opcje
     return new Promise(async(res,rej)=>{
         const {uid,type} =data
-        console.log(uid)
        const user_data = await firestore().collection("Users").doc(uid).get()
         if(user_data.exists){
             switch (type) {
