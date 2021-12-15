@@ -7,7 +7,7 @@ const check_format_and_add_file = (data)=>{
         let added = []
         try {
             for(let x =0;x<array_files.length;x++){
-                array_files[x].path = path+`${await makeId(12)}`
+                array_files[x].path = path+`${await makeId(25)}`
                 if(array_files[x].obj.type == "image/jpeg" || array_files[x].obj.type == "image/jpg")
                 array_files[x].path+=`.jpg`
                 if(array_files[x].obj.type == "image/png")
@@ -19,7 +19,7 @@ const check_format_and_add_file = (data)=>{
                     added.push({
                         path:array_files[x].path,
                         type:array_files[x].obj.type,
-                        id:await makeId(10)}
+                        id:await makeId(20)}
                        )
                 } catch (error) {
                    //tutaj usunac wszystko

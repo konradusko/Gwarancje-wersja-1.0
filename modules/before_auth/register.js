@@ -33,7 +33,7 @@ const register = (data)=>{
                 case '1':
                     add_user({
                         path:data.public_avatar.one.path,
-                        id:await makeId(10),
+                        id:await makeId(20),
                         type:data.public_avatar.one.type,
                         public:true
                     },user.uid)
@@ -42,7 +42,7 @@ const register = (data)=>{
                 case '2':
                     add_user({
                         path:data.public_avatar.two.path,
-                        id:await makeId(10),
+                        id:await makeId(20),
                         type:data.public_avatar.two.type,
                         public:true
                     },user.uid)
@@ -51,7 +51,7 @@ const register = (data)=>{
                 case '3':
                     add_user({
                         path:data.public_avatar.three.path,
-                        id:await makeId(10),
+                        id:await makeId(20),
                         type:data.public_avatar.three.type,
                         public:true
                     },user.uid)
@@ -63,14 +63,14 @@ const register = (data)=>{
                         await add_photo_to_storage(data.avatar,url_name_photo) // próbujemy dodac obrazek do firestore
                         add_user({
                             path:url,
-                            id:await makeId(10),
+                            id:await makeId(20),
                             type:data.avatar.type,
                             public:false
                         },user.uid)
                     }catch(err){
                         add_user({
                             path:data.public_avatar.one.path,
-                            id:await makeId(10),
+                            id:await makeId(20),
                             type:data.public_avatar.one.type,
                             public:true
                         },user.uid)//nie udalo sie dodac obrazka wiec wybierzemy defaultowy i dalej utworzymy konto

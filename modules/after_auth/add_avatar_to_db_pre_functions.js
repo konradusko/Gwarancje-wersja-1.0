@@ -8,7 +8,7 @@ const check_format_and_add_avatar = (data)=>{
             avatar_object ={
                 path:public_image.path,
                 type:public_image.type,
-                id: await makeId(10),
+                id: await makeId(20),
                 public:true
             }
            return res(avatar_object)
@@ -16,7 +16,7 @@ const check_format_and_add_avatar = (data)=>{
 
         if(obj != null){
           avatar_object = {
-                path:path+`${await makeId(12)}`,
+                path:path+`${await makeId(25)}`,
                 obj:obj
             }
             if(avatar_object.obj.type == "image/jpeg" || avatar_object.obj.type == "image/jpg")
@@ -28,7 +28,7 @@ const check_format_and_add_avatar = (data)=>{
                const obj_to_return={
                     path:avatar_object.path,
                     type:avatar_object.obj.type,
-                    id:await makeId(10),
+                    id:await makeId(20),
                     public:false
                 }
                return res(obj_to_return)
