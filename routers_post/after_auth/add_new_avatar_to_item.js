@@ -4,6 +4,7 @@ import {check_avatar_type} from '../../modules/after_auth/check_avatar.js'
 import {get_item_info_by_id} from '../../modules/global/get_item_info_by_id.js'
 import { isHtml } from "../../modules/global/is_html_in_text.js"
 import {validate_body_keys_without_return} from '../../modules/global/validate_body_keys.js'
+import {makeId} from '../../modules/global/makeId.js'
 add_new_avatar_to_itemPOSTREQ.post('/addNewAvatarItem',async(req,res)=>{
     const uid = res.locals.user.uid;
     const item_id = res.locals.item_id;
@@ -50,7 +51,7 @@ add_new_avatar_to_itemPOSTREQ.post('/addNewAvatarItem',async(req,res)=>{
                     //japierw dodam jako publiczne
                     const public_avatar = { // publiczny avatar
                         path:avatar_info_validate.public_avatar.path,
-                        id:await makeId(10),
+                        id:await makeId(20),
                         type:avatar_info_validate.public_avatar.type,
                         public:true
                     }

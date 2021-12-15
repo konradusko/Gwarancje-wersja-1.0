@@ -1,7 +1,7 @@
 import express from "express"
 const addItemEvent = express.Router()
 import {add_item_check_files} from '../../modules/after_auth/add_item_check_files.js'
-import {makeId} from "../../modules/global/makeId.js"
+import {makeId,generateGuid} from "../../modules/global/makeId.js"
 import {add_event_to_db} from '../../modules/after_auth/add_event_to_db.js'
 import {remove_item_from_db} from '../../modules/global/remove_item_from_db.js'
 import {add_item_to_event} from '../../modules/after_auth/add_event_to_item.js'
@@ -30,8 +30,8 @@ addItemEvent.post('/addItemEvent',async(req,res)=>{
             //zwraca null jeśli nie było wgl plikow , a jak były to tablice z blobami
             const files = await add_item_check_files({body:req.body,max_files:max_files_in_event,max_size:max_size_files_in_event,allow_format:files_validate_info.allow_format})
             //dodawanie zdj do bazy danych
-            const public_id = await makeId(15)
-            const private_id = `${await makeId(10)}.${public_id}.${await makeId(10)}`
+            const public_id = await generateGuid()
+            const private_id = `${await makeId(5)}.${public_id}.${await makeId(5)}`
             const item_Mother = res.locals.item_id
             const uid = res.locals.user.uid
             const path = `Items/${item_Mother}/`

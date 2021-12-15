@@ -3,7 +3,7 @@ const add_item = express.Router()
 import {get_user_info_from_db} from "../../modules/after_auth/get_users_info.js"
 import {add_item_validate} from '../../modules/after_auth/add_item_validate.js'
 import {add_item_to_db} from '../../modules/after_auth/add_item_to_db.js'
-import {makeId} from "../../modules/global/makeId.js"
+import {makeId,generateGuid} from "../../modules/global/makeId.js"
 import {remove_file} from '../../modules/global/remove_file_in_storage.js'
 import {remove_item_from_db} from '../../modules/global/remove_item_from_db.js'
 import {add_item_to_user_and_remove_slot} from "../../modules/after_auth/add_item_to_user_and_take_slot.js"
@@ -36,8 +36,8 @@ add_item.post('/addItem',async(req,res)=>{
                 try {
                     await validate_body_keys_without_return({body:req.body,require_to_validate,allow_to_pass})
                     await add_item_validate(req.body,validate_info)
-                    const public_id = await makeId(20)
-                    const private_id = `${await makeId(15)}.${public_id}.${await makeId(10)}`
+                    const public_id = await generateGuid()
+                    const private_id = `${await makeId(7)}.${public_id}.${await makeId(7)}`
                     const path = `Items/${private_id}/`
                     const uid = res.locals.user.uid
                     try {

@@ -53,7 +53,7 @@ add_new_avatar_to_userPOSTREQ.post('/addNewAvatarUser',async(req,res)=>{
                     //japierw dodam jako publiczne
                     const public_avatar = { // publiczny avatar
                         path:avatar_info_validate.public_avatar.path,
-                        id:await makeId(10),
+                        id:await makeId(20),
                         type:avatar_info_validate.public_avatar.type,
                         public:true
                     }

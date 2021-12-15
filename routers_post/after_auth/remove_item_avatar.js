@@ -30,7 +30,7 @@ remove_item_avatar.post('/removeItemAvatar',async(req,res)=>{
     
             const new_avatar = {
                 path:avatar_info_validate.public_avatar.path,
-                id:await makeId(10),
+                id:await makeId(20),
                 type:avatar_info_validate.public_avatar.type,
                 public:true
             }
