@@ -3,6 +3,7 @@ const before_auth_POST_register = express.Router()
 import {register} from "../../modules/before_auth/register.js"
 import { isHtml } from "../../modules/global/is_html_in_text.js"
 import {fetch_photo} from "../../modules/global/promise_fetch_photo.js"
+import {check_photo_format} from '../../modules/validate_photo/check_photo_format.js'
 before_auth_POST_register.post('/registerUser',async(req,res)=>{ 
     const name_minimum_length = 4,name_max_length = 25,password_minimum_length = 6,password_max_length = 25
     const validate_avatar = res.locals.avatar_info
@@ -55,13 +56,15 @@ before_auth_POST_register.post('/registerUser',async(req,res)=>{
             return res.json('Avatar zawiera niedozwolone znaki.')
         try {
             const photo = await fetch_photo(req.body.avatar)
+            const type_of_photo = await check_photo_format(photo)
+            console.log(type_of_photo)
             const max_size =res.locals.max_size_file // bajty
-            if(photo.type == "image/jpeg" || photo.type == "image/png"||photo.type == "image/jpg"){}else{
+            if( type_of_photo == "image/png"||type_of_photo == "image/jpg"){}else{
                 return res.json({message:"Zdjęcie ma zły format !"})
             }
             if(photo.size > max_size)
                 return res.json({message:"Zdjęcie jest za duże !"})
-            reg(photo)
+            reg({blob:photo,type:type_of_photo})
         } catch (error) {
             return res.json({message:"Plik ma zły format lub jest uszkodzony!"})
         }

@@ -45,6 +45,9 @@ app.post('/home',after_auth_home)
 import {item_after_auth} from './routers_get/after_auth/item_after_auth.js'
 app.get('/item',item_after_auth)
 app.post('/item',item_after_auth)
+import {after_auth_profil} from './routers_get/after_auth/profile_after_auth.js'
+app.get('/profil',after_auth_profil)
+app.post('/profil',after_auth_profil)
 //routers post
 import {before_auth_POST_register} from "./routers_post/before_auth/register.js"
 import {get_user_info} from "./routers_post/after_auth/get_user_info.js"

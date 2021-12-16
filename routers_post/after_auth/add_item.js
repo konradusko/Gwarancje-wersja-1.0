@@ -32,7 +32,7 @@ add_item.post('/addItem',async(req,res)=>{
       
             //sprawdzam czy w body nie ma czegos niechcianego
             const require_to_validate = ['token']
-            const allow_to_pass = ['serial_number','seller_name','seller_adress','seller_email','phone_number_seller','phone_number_seller','item_name','brand','model','purchase_amount','warranty_start_date','warranty_end_date','warranty_time']
+            const allow_to_pass = ['avatar','files','serial_number','seller_name','seller_adress','seller_email','phone_number_seller','phone_number_seller','item_name','brand','model','purchase_amount','warranty_start_date','warranty_end_date','warranty_time']
                 try {
                     await validate_body_keys_without_return({body:req.body,require_to_validate,allow_to_pass})
                     await add_item_validate(req.body,validate_info)
@@ -41,11 +41,14 @@ add_item.post('/addItem',async(req,res)=>{
                     const path = `Items/${private_id}/`
                     const uid = res.locals.user.uid
                     try {
+                        console.log('lelelelelelellelel')
                         const check_images = await add_item_check_files({body:req.body,max_files:max_files_in_event,max_size:max_size,allow_format:files_validate_info.allow_format})
                         const avatar = await check_avatar_type({body:req.body,allow_format:avatar_info.allow_format,max_size:max_size})
+                        console.log(avatar)
                         //tutaj jeszcze validacje avatara zrobic
                         try {
                         //dodanie avatara
+                        console.log('lel')
                         const avatar_object = await check_format_and_add_avatar({obj:avatar,path:path,public_image:avatar_info.public_avatar})
                         const  photos_paths = (check_images === null)? []:  await check_format_and_add_file({path:path,array_files:check_images})
                             // Stworzyc item

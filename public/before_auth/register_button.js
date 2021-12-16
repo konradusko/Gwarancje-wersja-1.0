@@ -16,12 +16,13 @@ export default async function register_button(){
         }
 document.getElementById('form')
     .addEventListener('click',(e)=>{
+        console.log(img)
         const name_minimum_length = 4,name_max_length = 25,password_minimum_length = 6
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
         const name =document.getElementById('name').value
         const reg_exp_mail_validate =  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        const validate_email = reg_exp_mail_validate.test(String(req.body.email).toLowerCase()) == true? true:false
+        const validate_email = reg_exp_mail_validate.test(String(email).toLowerCase()) == true? true:false
         if(!validate_email)
         console.log('wyswietlic ze email jest zły !')
         if(name.length <name_minimum_length)
@@ -41,7 +42,7 @@ document.getElementById('form')
                     email,
                     password,
                     name,
-                    img
+                    avatar:img
                 })
             })
             .then(response => response.json()) // convert to json
@@ -50,6 +51,7 @@ document.getElementById('form')
                 console.log('good')
             })
             .catch((er)=>{
+                console.log('e')
                 console.log(er)
             })
         }
