@@ -8,17 +8,17 @@ const check_format_and_add_file = (data)=>{
         try {
             for(let x =0;x<array_files.length;x++){
                 array_files[x].path = path+`${await makeId(25)}`
-                if(array_files[x].obj.type == "image/jpeg" || array_files[x].obj.type == "image/jpg")
+                if(array_files[x].type == "image/jpeg" || array_files[x].type == "image/jpg")
                 array_files[x].path+=`.jpg`
-                if(array_files[x].obj.type == "image/png")
+                if(array_files[x].type == "image/png")
                 array_files[x].path+=`.png`
-                if(array_files[x].obj.type == "application/pdf")
+                if(array_files[x].type == "application/pdf")
                 array_files[x].path+=`.pdf`
                 try {
-                    await add_photo_to_storage(array_files[x].obj,array_files[x].path)
+                    await add_photo_to_storage(array_files[x].obj,array_files[x].path,array_files[x].type)
                     added.push({
                         path:array_files[x].path,
-                        type:array_files[x].obj.type,
+                        type:array_files[x].type,
                         id:await makeId(20)}
                        )
                 } catch (error) {

@@ -5,7 +5,8 @@ const add_new_user_to_db = (uid,avatar)=>{
     console.log('dodaje')
     return new Promise(async(res,rej)=>{
         const usersRef =  firestore().collection("Users");
-        const privateId = generateGuid()
+        const privateId = await generateGuid()
+        console.log(privateId)
         await usersRef.doc(uid).set({
             items:[],
             slots:3,

@@ -21,7 +21,7 @@ const middleware_config = (req,res,next)=>{
         serial_number_max_length:30
     }
     res.locals.avatar_info = {
-        allow_format:['image/jpeg',"image/png","image/jpg"],
+        allow_format:["image/png","image/jpg"],
         public_avatar:{
             type:'png',
             path:'./x/d/xd'
@@ -43,7 +43,7 @@ const middleware_config = (req,res,next)=>{
     }
     
     res.locals.files_info = {
-        allow_format:['image/jpeg',"image/png","image/jpg","application/pdf"]
+        allow_format:["image/png","image/jpg","application/pdf"]
     }
     res.locals.add_event_validate = {
         name_max_length:50,

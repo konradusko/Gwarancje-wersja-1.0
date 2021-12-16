@@ -60,9 +60,9 @@ const register = (data)=>{
 
                     const url_name_photo = (data.avatar.type == "image/jpeg" || data.avatar.type == "image/jpg")?`UsersPhotos/${user.uid}/user_photo.jpg`:`UsersPhotos/${user.uid}/user_photo.png`
                     try {
-                        await add_photo_to_storage(data.avatar,url_name_photo) // próbujemy dodac obrazek do firestore
+                        await add_photo_to_storage(data.avatar.blob,url_name_photo,data.avatar.type) // próbujemy dodac obrazek do firestore
                         add_user({
-                            path:url,
+                            path:url_name_photo,
                             id:await makeId(20),
                             type:data.avatar.type,
                             public:false

@@ -24,7 +24,7 @@ const check_format_and_add_avatar = (data)=>{
             if(avatar_object.obj.type == "image/png")
                 avatar_object.path += `.png`
             try {
-                await add_photo_to_storage(avatar_object.obj,avatar_object.path)
+                await add_photo_to_storage(avatar_object.obj.blob,avatar_object.path,avatar_object.obj.type)
                const obj_to_return={
                     path:avatar_object.path,
                     type:avatar_object.obj.type,

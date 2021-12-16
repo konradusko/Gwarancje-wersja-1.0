@@ -2,9 +2,9 @@ import {get_item_info_by_id} from '../global/get_item_info_by_id.js'
 import { isHtml } from '../global/is_html_in_text.js';
 const middleware_get_event_owner_by_public_id = async(req,res,next) =>{
 
-    if('event_public_id' in req.body && typeof body.event_public_id === 'string' && isHtml(body.event_public_id))
+    if('event_public_id' in req.body && typeof req.body.event_public_id === 'string' && isHtml(req.body.event_public_id))
         return res.json({message:'Niedozwolone znaki w tekscie.'})
-    if('event_public_id' in req.body && typeof body.event_public_id === 'string'){
+    if('event_public_id' in req.body && typeof req.body.event_public_id === 'string'){
         const uid = res.locals.user.uid
         const item_id = res.locals.item_id;
         const public_id_event = req.body.event_public_id
